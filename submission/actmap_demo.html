@@ -59,6 +59,13 @@
     isolation: isolate;
   }
 
+  .stage.export-frame *,
+  .stage.export-frame *::before,
+  .stage.export-frame *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
   .stage::before {
     content: "";
     position: absolute;
@@ -1017,6 +1024,9 @@
   const params = new URLSearchParams(window.location.search);
   const initialElapsed = clamp(Number(params.get("t")) || 0, 0, duration);
   const freezeFrame = params.has("freeze");
+  if (params.has("export")) {
+    stage.classList.add("export-frame");
+  }
 
   termTranscript.textContent = transcript;
   clipRange.textContent = `${data.clip.p02.toFixed(2)}..${data.clip.p98.toFixed(2)}`;
@@ -1045,6 +1055,11 @@
 
   reset();
   update(initialElapsed);
+  window.__actmapDemoSetTime = (seconds) => {
+    reset();
+    update(clamp(Number(seconds) || 0, 0, duration));
+  };
+  window.__actmapDemoReady = true;
   if (!freezeFrame && initialElapsed < duration) {
     playVoiceover();
     raf = requestAnimationFrame(tick);
