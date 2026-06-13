@@ -12,6 +12,8 @@ build/
 # ActMap data tensors (large binary files)
 data/*.pt
 data/*.tmp
+runs/
+submission/demo_artifacts/
 
 # IDE
 .idea/

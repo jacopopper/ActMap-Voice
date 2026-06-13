@@ -17,6 +17,12 @@ The core differentiator is that the route is not based only on keywords or an LL
 - `presentation-outline.md`: slide-by-slide submission narrative.
 - `pipeline.md`: technical architecture for ElevenLabs plus local ActMap routing.
 - `demo-script.md`: live demo sequence, prompts, and fallback plan.
+- `evidence.md`: literature and product rationale for why this is a real pain point.
+- `actmap-uq-report-notes.md`: benchmark numbers and careful claims from the local ActMap UQ report.
+- `elevenlabs-native-vs-actmap.md`: comparison between native ElevenLabs workflow routing and ActMap activation routing.
+- `cost-performance-slide-plan.md`: lightweight slide plan for cost, latency, and text-baseline comparison.
+- `rag-cost-estimate.md`: scenario-based dollar estimates for unnecessary RAG/tool routing.
+- `elevenlabs_dry_run.py`: repeatable live API smoke test for ElevenLabs TTS and STT.
 
 ## Required Positioning
 
@@ -24,6 +30,13 @@ The demo should make two facts explicit:
 
 - ElevenLabs is the speech layer: audio input, transcript, spoken response, and optional ElevenAgents UI/deployment.
 - ActMap is the local decision layer: `Qwen/Qwen3-8B` runs locally through vLLM hooks, produces `12 x 32 x 128` activation maps, and decides whether speech should proceed.
+
+Because this demo is being built on an ElevenLabs Creator plan, keep the integration Creator-plan-safe:
+
+- Use direct ElevenLabs API calls for speech-to-text and text-to-speech.
+- Treat ElevenAgents, telephony, SIP transfer, enterprise retention controls, and production deployment features as optional stretch paths.
+- Do not depend on premium-only audio formats or enterprise-only zero-retention settings.
+- Record visible API traces so the ElevenLabs usage is obvious even if the demo is a local script.
 
 The shortest diagram:
 
@@ -45,6 +58,20 @@ During the demo, show:
 - The local model name and ActMap tensor shape.
 - The route decision, confidence, and action.
 - The final spoken audio generated through ElevenLabs.
+
+## Core Differentiation
+
+Native ElevenLabs Workflows can route conversations through LLM conditions over transcript text. ActMap adds a different signal: the local model's hidden activations during a short private generation. The pitch is that ElevenLabs provides the voice and orchestration, while ActMap makes the pre-speech route faster on easy turns and more precise on risky turns.
+
+## ElevenLabs Dry Run
+
+Run this before the live demo:
+
+```bash
+python3 submission/elevenlabs_dry_run.py
+```
+
+It loads `.env`, generates a short TTS clip, transcribes that clip with ElevenLabs STT, and saves local artifacts under `submission/demo_artifacts/`.
 
 ## Official ElevenLabs References
 
