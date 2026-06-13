@@ -1,0 +1,1020 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --ink: #111820;
+    --muted: #687381;
+    --paper: #f6f7f2;
+    --panel: #ffffff;
+    --line: #d8ded5;
+    --teal: #0f6b5f;
+    --blue: #2f6fbd;
+    --amber: #d99a21;
+    --red: #c84242;
+    --green: #168047;
+    --soft-blue: #edf3ff;
+    --soft-green: #edf8f1;
+    --soft-red: #fff0ed;
+    --soft-amber: #fff8e6;
+    --dark: #111820;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: #dfe4dd;
+    color: var(--ink);
+    font-family: "Aptos", "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  .slide {
+    width: 960px;
+    height: 540px;
+    position: relative;
+    overflow: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0 auto 26px;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 22px;
+    border: 1px solid var(--line);
+    pointer-events: none;
+  }
+
+  @page {
+    size: 10in 5.625in;
+    margin: 0;
+  }
+
+  @media print {
+    html, body { background: #fff; }
+    .slide { margin: 0; }
+  }
+
+  h1, h2, h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: 0;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: 64px;
+    line-height: 0.93;
+  }
+
+  h2 {
+    font-size: 40px;
+    line-height: 1.06;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: 1.12;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.45;
+    color: #354150;
+  }
+
+  .kicker {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  .brand {
+    position: absolute;
+    top: 34px;
+    left: 42px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .brand::before {
+    content: "";
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    border: 6px solid var(--ink);
+    border-right-color: var(--teal);
+  }
+
+  .page-num {
+    position: absolute;
+    right: 42px;
+    bottom: 34px;
+    font-size: 11px;
+    font-weight: 900;
+    color: #95a0ab;
+    letter-spacing: 0.12em;
+  }
+
+  .header {
+    position: absolute;
+    left: 58px;
+    top: 58px;
+    width: 720px;
+  }
+
+  .header h2 { margin-top: 9px; }
+  .header p { margin-top: 12px; width: 650px; }
+  .header.narrow { width: 520px; }
+  .header.narrow p { width: 500px; }
+  .header.compact p { width: 560px; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 29px;
+    min-width: 84px;
+    padding: 0 13px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .answer { background: var(--soft-green); color: var(--green); border: 1px solid #9ac6a7; }
+  .verify { background: var(--soft-blue); color: var(--blue); border: 1px solid #9eb4db; }
+  .escalate { background: var(--soft-red); color: var(--red); border: 1px solid #dfa39a; }
+
+  .fine {
+    font-size: 11px;
+    line-height: 1.42;
+    color: var(--muted);
+  }
+
+  .mono {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+
+  /* slide 1 */
+  .cover-title {
+    position: absolute;
+    left: 72px;
+    top: 104px;
+    width: 530px;
+  }
+
+  .cover-title h1 span { color: var(--teal); }
+  .cover-title p {
+    margin-top: 18px;
+    width: 505px;
+    font-size: 18px;
+  }
+
+  .voice-card {
+    position: absolute;
+    right: 62px;
+    top: 82px;
+    width: 258px;
+    height: 358px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 28px 60px rgba(18, 24, 33, 0.12);
+    padding: 25px;
+  }
+
+  .voice-card .label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 900;
+  }
+
+  .signal {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    top: 93px;
+    height: 116px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .bar {
+    width: 6px;
+    border-radius: 99px;
+    background: var(--ink);
+  }
+
+  .b1 { height: 22px; opacity: .38; }
+  .b2 { height: 54px; opacity: .58; }
+  .b3 { height: 96px; opacity: .9; }
+  .b4 { height: 68px; opacity: .7; }
+  .b5 { height: 34px; opacity: .48; }
+  .b6 { height: 112px; opacity: .98; background: var(--teal); }
+  .b7 { height: 62px; opacity: .66; }
+  .b8 { height: 82px; opacity: .78; }
+  .b9 { height: 44px; opacity: .54; }
+  .b10 { height: 24px; opacity: .36; }
+
+  .voice-route {
+    position: absolute;
+    left: 25px;
+    right: 25px;
+    bottom: 27px;
+  }
+
+  .route-line {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .route-line:first-child { border-top: 0; }
+  .route-line span:first-child {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .route-line span:last-child {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .activation-caption {
+    position: absolute;
+    left: 25px;
+    right: 25px;
+    bottom: 34px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  .activation-caption strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .activation-caption span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+
+  .cover-line {
+    position: absolute;
+    left: 72px;
+    bottom: 76px;
+    width: 520px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .cover-line strong {
+    color: var(--teal);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-right: 10px;
+  }
+
+  /* general cards and diagrams */
+  .three-cards {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 72px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 18px;
+    min-height: 190px;
+  }
+
+  .card h3 { margin-bottom: 12px; }
+  .card p { font-size: 14px; color: var(--muted); }
+
+  .numbered {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .pipeline-frame {
+    position: absolute;
+    left: 62px;
+    right: 62px;
+    top: 176px;
+    height: 290px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 20px 44px rgba(18, 24, 33, 0.10);
+    padding: 10px;
+  }
+
+  .pipeline-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .callout {
+    position: absolute;
+    right: 62px;
+    top: 62px;
+    width: 248px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 15px;
+  }
+
+  .callout strong {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+  }
+
+  .callout .fine { color: var(--muted); }
+
+  /* slide 5 */
+  .signal-layout {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 68px;
+    display: grid;
+    grid-template-columns: 508px 1fr;
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .heatmap-panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 20px;
+  }
+
+  .heatmap {
+    display: grid;
+    grid-template-columns: repeat(32, 1fr);
+    gap: 3px;
+    margin-top: 16px;
+  }
+
+  .heatmap i {
+    display: block;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .m1 { background: #0f6b5f; }
+  .m2 { background: #2f6fbd; }
+  .m3 { background: #d99a21; }
+  .m4 { background: #c84242; }
+  .m5 { background: #111820; }
+  .m6 { background: #aeb7c2; }
+
+  .steps {
+    display: grid;
+    gap: 12px;
+  }
+
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 16px;
+    min-height: 82px;
+  }
+
+  .step strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  /* slide 6 */
+  .decision-grid {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 70px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .decision-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    min-height: 275px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .quote {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    line-height: 1.18;
+    margin-top: 18px;
+  }
+
+  .decision-card .fine {
+    border-top: 1px solid var(--line);
+    padding-top: 13px;
+  }
+
+  /* slide 7 */
+  .domain-board {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 58px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 20px;
+  }
+
+  .surface-list {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 18px;
+  }
+
+  .surface-list h3 { margin-bottom: 14px; }
+  .surface-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .surface-item:first-of-type { border-top: 0; }
+  .surface-item strong { color: var(--ink); }
+  .surface-item span { color: var(--muted); line-height: 1.35; }
+
+  .policy-box {
+    background: var(--dark);
+    color: #fff;
+    padding: 22px;
+  }
+
+  .policy-box h3 { color: #fff; }
+  .policy-box p { color: #c9d3df; font-size: 14px; margin-top: 12px; }
+  .policy-box .rule {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.16);
+    color: #9aa6b5;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  /* slide 8 */
+  .benchmark-layout {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 68px;
+    display: grid;
+    grid-template-columns: 1fr 332px;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .metric {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 18px;
+    min-height: 128px;
+  }
+
+  .metric .num {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .metric .label {
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .metric .fine { margin-top: 7px; }
+
+  .table {
+    background: var(--dark);
+    color: #fff;
+    padding: 22px;
+  }
+
+  .table h3 { color: #fff; }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 72px 72px;
+    gap: 8px;
+    padding: 13px 0;
+    border-top: 1px solid rgba(255,255,255,0.16);
+    font-size: 13px;
+    align-items: center;
+  }
+
+  .row.head {
+    margin-top: 15px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #aeb7c2;
+  }
+
+  .row span:nth-child(2),
+  .row span:nth-child(3) { text-align: right; font-weight: 900; }
+  .good { color: #9be2ad; }
+  .base { color: #c4ceda; }
+
+  /* slide 9 */
+  .value-layout {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 62px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .case-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .case {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 15px 16px;
+    min-height: 96px;
+  }
+
+  .case .pill { margin-bottom: 8px; }
+
+  .cost-stack {
+    display: grid;
+    gap: 10px;
+  }
+
+  .cost {
+    background: var(--dark);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 15px 18px;
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 14px;
+    align-items: center;
+    min-height: 78px;
+  }
+
+  .cost .num {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .cost .num.amber { color: #f0c36a; }
+  .cost .num.green { color: #9be2ad; }
+  .cost .num.blue { color: #9bbcff; }
+  .cost strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  .cost span {
+    display: block;
+    font-size: 11px;
+    color: #9aa6b5;
+    line-height: 1.35;
+  }
+
+  /* slide 10 */
+  .dark-slide {
+    background: var(--dark);
+    color: #fff;
+  }
+  .dark-slide::before { border-color: rgba(255,255,255,0.16); }
+  .dark-slide h2,
+  .dark-slide h3 { color: #fff; }
+  .dark-slide .kicker { color: #9be2ad; }
+  .dark-slide p { color: #c9d3df; }
+  .dark-slide .page-num { color: #758294; }
+
+  .source-layout {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 92px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 26px;
+    align-items: end;
+  }
+
+  .source-copy {
+    padding-bottom: 8px;
+  }
+
+  .source-copy h2 {
+    font-size: 42px;
+    margin-top: 9px;
+  }
+
+  .source-copy p {
+    margin-top: 18px;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .source-copy .source-meta {
+    margin-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.16);
+    padding-top: 16px;
+    color: #9aa6b5;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .report-card {
+    height: 330px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 12px;
+  }
+
+  .report-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 9px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9be2ad;
+  }
+
+  .report-top span:last-child {
+    color: #9aa6b5;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .report-card img {
+    width: 100%;
+    height: 262px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    background: #fff;
+    border: 1px solid rgba(255,255,255,0.20);
+  }
+
+  .closing-line {
+    position: absolute;
+    left: 58px;
+    right: 58px;
+    bottom: 28px;
+    border-top: 1px solid rgba(255,255,255,0.16);
+    padding-top: 13px;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .closing-line strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .closing-line span {
+    text-align: right;
+    color: #9aa6b5;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="brand">ActMap Voice</div>
+  <div class="cover-title">
+    <div class="kicker">Pre-speech decision layer</div>
+    <h1>Route before<br><span>the agent speaks.</span></h1>
+    <p>Voice agents should not retrieve documents for every request, and they should not speak from memory when a turn depends on policy, account state, or risk. ActMap reads model activations before speech to choose the right action.</p>
+  </div>
+  <div class="cover-line">
+    <strong>Core idea</strong>
+    Hidden activations expose uncertainty and operational risk before TTS, so the agent can choose the right action before the user hears anything.
+  </div>
+  <div class="voice-card">
+    <div class="label">model activations</div>
+    <div class="signal">
+      <span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b4"></span><span class="bar b5"></span>
+      <span class="bar b6"></span><span class="bar b7"></span><span class="bar b8"></span><span class="bar b9"></span><span class="bar b10"></span>
+    </div>
+    <div class="activation-caption">
+      <strong>before speech</strong>
+      <span>Hidden states from a fixed local LLM become a route signal before the answer reaches TTS.</span>
+    </div>
+  </div>
+  <div class="page-num">01</div>
+</section>
+
+<section class="slide">
+  <div class="header">
+    <div class="kicker">Why this exists</div>
+    <h2>Voice agents need a decision layer, not only a response model.</h2>
+    <p>In voice, the wrong route becomes spoken, immediate, and branded. The routing decision has to happen before speech.</p>
+  </div>
+  <div class="three-cards">
+    <div class="card">
+      <div class="numbered">1</div>
+      <h3>Answering too fast</h3>
+      <p>Account-specific, pricing, refund, or security questions can sound confident while being wrong.</p>
+    </div>
+    <div class="card">
+      <div class="numbered">2</div>
+      <h3>Verifying everything</h3>
+      <p>Always calling RAG or tools slows simple turns and burns cost when the answer is stable.</p>
+    </div>
+    <div class="card">
+      <div class="numbered">3</div>
+      <h3>Escalating too late</h3>
+      <p>Human handoff after a risky generated answer is still too late for fraud, legal, and trust issues.</p>
+    </div>
+  </div>
+  <div class="page-num">02</div>
+</section>
+
+<section class="slide">
+  <div class="header narrow">
+    <div class="kicker">Current voice-agent pattern</div>
+    <h2>The voice loop is strong.</h2>
+    <p>The gap is deciding what happens between transcript and speech.</p>
+  </div>
+  <div class="callout">
+    <strong>The default loop speaks after generation.</strong>
+    <div class="fine">Verification usually happens inside the agent loop. That makes route quality dependent on the same text model that is about to answer.</div>
+  </div>
+  <div class="pipeline-frame">
+    <img src="assets/elevenlabs-standard-pipeline.svg" alt="Standard ElevenLabs voice-agent pipeline" />
+  </div>
+  <div class="page-num">03</div>
+</section>
+
+<section class="slide">
+  <div class="header narrow">
+    <div class="kicker">ActMap insertion point</div>
+    <h2>Add one gate before TTS.</h2>
+    <p>ActMap routes every transcript before the voice agent speaks.</p>
+  </div>
+  <div class="callout">
+    <strong>The generated answer is not the signal.</strong>
+    <div class="fine">A fixed local Qwen3-8B pass exposes hidden activations. The user hears only the final routed response.</div>
+  </div>
+  <div class="pipeline-frame">
+    <img src="assets/actmap-pipeline.svg" alt="Voice-agent pipeline with ActMap routing before speech" />
+  </div>
+  <div class="page-num">04</div>
+</section>
+
+<section class="slide">
+  <div class="header compact">
+    <div class="kicker">White-box signal</div>
+    <h2>Activation maps become route signals.</h2>
+    <p>Hidden states are reshaped into image-like maps and classified by a ViT route head.</p>
+  </div>
+  <div class="signal-layout">
+    <div class="heatmap-panel">
+      <h3>ActMap tensor</h3>
+      <p class="fine" style="margin-top:8px;">12 selected layers x 32 generated tokens x 128 projected features.</p>
+      <div class="heatmap" aria-label="activation map preview">
+        <i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i>
+        <i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i>
+        <i class="m4"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m6"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i>
+        <i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i>
+        <i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i>
+        <i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><strong>1. Transcript in</strong><span class="fine">The STT transcript is placed in a voice-agent system context.</span></div>
+      <div class="step"><strong>2. Local decode pass</strong><span class="fine">Qwen3-8B generates a short private continuation and exposes hidden states.</span></div>
+      <div class="step"><strong>3. ViT route head</strong><span class="fine">The map is classified into ANSWER, VERIFY, or ESCALATE.</span></div>
+    </div>
+  </div>
+  <div class="page-num">05</div>
+</section>
+
+<section class="slide">
+  <div class="header">
+    <div class="kicker">Operational behavior</div>
+    <h2>Same agent. Three different actions.</h2>
+    <p>The class is not a topic label. It is the operational route the voice agent should take.</p>
+  </div>
+  <div class="decision-grid">
+    <div class="decision-card">
+      <div>
+        <span class="pill answer">Answer</span>
+        <div class="quote">"Where is the refund policy?"</div>
+      </div>
+      <div class="fine">Use stable public knowledge. Skip retrieval and speak directly.</div>
+    </div>
+    <div class="decision-card">
+      <div>
+        <span class="pill verify">Verify</span>
+        <div class="quote">"Am I eligible for a refund?"</div>
+      </div>
+      <div class="fine">Check purchase date, plan, account status, and policy window before speaking.</div>
+    </div>
+    <div class="decision-card">
+      <div>
+        <span class="pill escalate">Escalate</span>
+        <div class="quote">"Someone used my card without permission."</div>
+      </div>
+      <div class="fine">Stop autonomous handling and move to a human support workflow.</div>
+    </div>
+  </div>
+  <div class="page-num">06</div>
+</section>
+
+<section class="slide">
+  <div class="header compact">
+    <div class="kicker">Demo domain</div>
+    <h2>Account questions are routing tests.</h2>
+  </div>
+  <div class="domain-board">
+    <div class="surface-list">
+      <h3>Question surfaces</h3>
+      <div class="surface-item"><strong>Plans</strong><span>individual, pro, enterprise, seat limits, upgrades, migrations</span></div>
+      <div class="surface-item"><strong>Billing</strong><span>invoices, failed payments, tax details, usage charges, credits</span></div>
+      <div class="surface-item"><strong>Refunds</strong><span>policy location, eligibility, renewal windows, disputed charges</span></div>
+      <div class="surface-item"><strong>Security</strong><span>SSO, audit logs, data retention, suspicious access, card misuse</span></div>
+      <div class="surface-item"><strong>Support</strong><span>bug reports, account lockouts, human handoff, admin requests</span></div>
+    </div>
+    <div class="policy-box">
+      <h3>The route depends on the action, not the noun.</h3>
+      <p>"Refund" can be ANSWER when asking where the policy is, VERIFY when asking about eligibility, and ESCALATE when fraud or coercion appears.</p>
+      <div class="rule">This is why text intent routing is too weak for voice operations. The agent needs an internal signal of uncertainty and risk before speech.</div>
+    </div>
+  </div>
+  <div class="page-num">07</div>
+</section>
+
+<section class="slide">
+  <div class="header compact">
+    <div class="kicker">Measured benchmark</div>
+    <h2>ActMap beats the text-only LM route.</h2>
+    <p>Final run on 2,967 Qwen3-8B decode ActMaps with balanced ANSWER, VERIFY, and ESCALATE labels.</p>
+  </div>
+  <div class="benchmark-layout">
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="num">96.18%</div>
+        <div class="label">ActMap ViT accuracy</div>
+        <div class="fine">Macro F1 0.9619 on held-out test split.</div>
+      </div>
+      <div class="metric">
+        <div class="num">4.5x</div>
+        <div class="label">Faster final router</div>
+        <div class="fine">390.7 rows/s vs 86.4 rows/s after ActMaps exist.</div>
+      </div>
+      <div class="metric">
+        <div class="num">+5.17</div>
+        <div class="label">Accuracy points</div>
+        <div class="fine">Lift over the text-only Qwen router baseline.</div>
+      </div>
+      <div class="metric">
+        <div class="num">32</div>
+        <div class="label">Clear contrast cases</div>
+        <div class="fine">Text-only wrong, ActMap correct on the test set.</div>
+      </div>
+    </div>
+    <div class="table">
+      <h3>Router comparison</h3>
+      <div class="row head"><span>model</span><span>acc.</span><span>f1</span></div>
+      <div class="row"><strong>ActMap + ViT</strong><span class="good">96.18</span><span class="good">0.9619</span></div>
+      <div class="row"><strong>Text-only LM</strong><span class="base">91.01</span><span class="base">0.9110</span></div>
+      <p class="fine" style="color:#9aa6b5;margin-top:16px;">Speed is measured for the final classifier step. End-to-end latency still includes STT and the local activation pass.</p>
+    </div>
+  </div>
+  <div class="page-num">08</div>
+</section>
+
+<section class="slide">
+  <div class="header compact">
+    <div class="kicker">Results and cost saved</div>
+    <h2>Risk and cost move together.</h2>
+    <p>ActMap catches risky routes and skips unnecessary retrieval for stable answers.</p>
+  </div>
+  <div class="value-layout">
+    <div class="case-list">
+      <div class="case">
+        <span class="pill verify">Error prevented</span>
+        <p class="fine">"Is there a newer version of the desktop app available for me?" Text-only LM predicted ANSWER. ActMap predicted VERIFY.</p>
+      </div>
+      <div class="case">
+        <span class="pill answer">Cost avoided</span>
+        <p class="fine">"Do you have a migration guide?" Text-only LM predicted VERIFY. ActMap predicted ANSWER.</p>
+      </div>
+    </div>
+    <div class="cost-stack">
+      <div class="cost"><div class="num amber">$49M</div><div><strong>avoidable annual always-RAG spend</strong><span>Scenario: 10M turns/day and $0.02 blended RAG/tool path.</span></div></div>
+      <div class="cost"><div class="num green">66.3%</div><div><strong>turns can skip RAG/tools</strong><span>ANSWER plus ESCALATE routes avoid retrieval before speech.</span></div></div>
+      <div class="cost"><div class="num blue">517k</div><div><strong>more correct routes per day</strong><span>At 10M turns/day from the 5.17 point accuracy lift.</span></div></div>
+    </div>
+  </div>
+  <div class="page-num">09</div>
+</section>
+
+<section class="slide dark-slide">
+  <div class="source-layout">
+    <div class="source-copy">
+      <div class="kicker">Method provenance</div>
+      <h2>Built on prior white-box ActMap work.</h2>
+      <p>ActMap Voice is the voice-agent application of activation-map uncertainty and risk signals from LLM runtime activations.</p>
+      <div class="source-meta">
+        Source: <strong>ActMap: White-Box Uncertainty Quantification from LLM Runtime Activations</strong><br>
+        Jacopo Dardini, Alma Mater Studiorum - University of Bologna<br>
+        Reference file: <span class="mono">white_box_uq/doc/report.pdf</span>
+      </div>
+    </div>
+    <div class="report-card">
+      <div class="report-top"><span>report screenshot</span><span>page 1, top half</span></div>
+      <img src="assets/whitebox_uq_report_first_half.png" alt="First half of the ActMap white-box uncertainty quantification report" />
+    </div>
+  </div>
+  <div class="closing-line">
+    <strong>Answer when safe. Verify when data matters. Escalate before damage.</strong>
+    <span>ElevenLabs runs the voice interface. ActMap supplies the pre-speech decision layer.</span>
+  </div>
+  <div class="page-num">10</div>
+</section>
+
+</body>
+</html>

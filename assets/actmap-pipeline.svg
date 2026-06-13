@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">ActMap voice-agent pipeline</title>
+  <desc id="desc">ActMap adds a pre-speech routing decision after speech to text and before text to speech. It uses hidden activations from a local model to choose answer, verify, or escalate.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#152033"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-18%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#1e293b" flood-opacity="0.14"/>
+    </filter>
+    <linearGradient id="mapGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f6b5f"/>
+      <stop offset="0.35" stop-color="#2f6fbd"/>
+      <stop offset="0.7" stop-color="#d99a21"/>
+      <stop offset="1" stop-color="#c84242"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1100" height="520" rx="28" fill="#f7f8f5"/>
+  <rect x="28" y="28" width="1044" height="464" rx="22" fill="#ffffff" stroke="#d9ded6"/>
+  <text x="62" y="76" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#121821">Pipeline with ActMap Voice</text>
+  <text x="62" y="105" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" fill="#66717e">A pre-speech decision layer decides whether to answer, verify, or hand off before words are spoken.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="160" width="132" height="86" rx="18" fill="#121821"/>
+    <text x="126" y="194" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#ffffff">Caller</text>
+    <text x="126" y="219" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="13" fill="#aeb7c2">audio input</text>
+  </g>
+  <path d="M 202 203 L 270 203" stroke="#152033" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="282" y="150" width="156" height="106" rx="20" fill="#eef7f4" stroke="#7fb7aa"/>
+    <text x="360" y="187" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="16" font-weight="800" fill="#0f5b51">ElevenLabs</text>
+    <text x="360" y="212" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#121821">Speech to Text</text>
+    <text x="360" y="235" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">transcript</text>
+  </g>
+  <path d="M 450 203 L 510 203" stroke="#152033" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="522" y="150" width="166" height="106" rx="20" fill="#eef2ff" stroke="#8ea1d4"/>
+    <text x="605" y="185" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#29447e">Local Qwen3-8B</text>
+    <text x="605" y="211" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#121821">private decode pass</text>
+    <text x="605" y="235" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">hidden states only</text>
+  </g>
+  <path d="M 700 203 L 758 203" stroke="#152033" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="770" y="137" width="170" height="132" rx="20" fill="#121821"/>
+    <text x="855" y="165" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#ffffff">ActMap</text>
+    <g transform="translate(800 181)">
+      <rect width="110" height="54" rx="8" fill="#0b1220" stroke="#415168"/>
+      <rect x="8" y="8" width="12" height="9" rx="2" fill="#0f6b5f"/>
+      <rect x="24" y="8" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="40" y="8" width="12" height="9" rx="2" fill="#d99a21"/>
+      <rect x="56" y="8" width="12" height="9" rx="2" fill="#c84242"/>
+      <rect x="72" y="8" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="88" y="8" width="12" height="9" rx="2" fill="#0f6b5f"/>
+      <rect x="8" y="23" width="12" height="9" rx="2" fill="#d99a21"/>
+      <rect x="24" y="23" width="12" height="9" rx="2" fill="#0f6b5f"/>
+      <rect x="40" y="23" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="56" y="23" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="72" y="23" width="12" height="9" rx="2" fill="#c84242"/>
+      <rect x="88" y="23" width="12" height="9" rx="2" fill="#d99a21"/>
+      <rect x="8" y="38" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="24" y="38" width="12" height="9" rx="2" fill="#c84242"/>
+      <rect x="40" y="38" width="12" height="9" rx="2" fill="#0f6b5f"/>
+      <rect x="56" y="38" width="12" height="9" rx="2" fill="#d99a21"/>
+      <rect x="72" y="38" width="12" height="9" rx="2" fill="#2f6fbd"/>
+      <rect x="88" y="38" width="12" height="9" rx="2" fill="#0f6b5f"/>
+    </g>
+    <text x="855" y="252" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#aeb7c2">12 x 32 x 128 map</text>
+  </g>
+
+  <path d="M 855 279 L 855 320" stroke="#152033" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)">
+    <rect x="750" y="330" width="210" height="58" rx="18" fill="#f2f4f7" stroke="#b9c1cc"/>
+    <text x="855" y="354" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" fill="#121821">ViT router</text>
+    <text x="855" y="376" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">3-way route before speech</text>
+  </g>
+
+  <path d="M 751 359 L 622 359" stroke="#0f6b5f" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M 855 389 L 855 431" stroke="#2f6fbd" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M 959 359 L 1030 359 L 1030 431" stroke="#c84242" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="460" y="326" width="156" height="68" rx="18" fill="#eef8f1" stroke="#80b889"/>
+    <text x="538" y="353" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="900" fill="#0f6b35">ANSWER</text>
+    <text x="538" y="375" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#496653">speak directly</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="777" y="431" width="156" height="68" rx="18" fill="#edf3ff" stroke="#8ea1d4"/>
+    <text x="855" y="458" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="900" fill="#29447e">VERIFY</text>
+    <text x="855" y="480" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#526179">fetch data, then speak</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="952" y="431" width="128" height="68" rx="18" fill="#fff0ed" stroke="#d8988c"/>
+    <text x="1016" y="458" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="900" fill="#9d2d2d">ESCALATE</text>
+    <text x="1016" y="480" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#7a5450">human handoff</text>
+  </g>
+
+  <path d="M 538 326 C 538 298 610 298 650 284" fill="none" stroke="#0f6b5f" stroke-width="2" stroke-dasharray="6 7"/>
+  <rect x="62" y="420" width="510" height="44" rx="14" fill="#121821"/>
+  <text x="84" y="448" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" fill="#ffffff">Change:</text>
+  <text x="154" y="448" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" fill="#d5dce5">ActMap gates the route before TTS, not after a risky answer has been spoken.</text>
+</svg>

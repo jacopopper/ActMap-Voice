@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
+  <title id="title">Standard ElevenLabs voice agent pipeline</title>
+  <desc id="desc">A caller sends audio to ElevenLabs speech to text, the agent produces an answer, optional tools or RAG are called inside the agent loop, and ElevenLabs text to speech speaks the answer.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#263241"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-18%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#1e293b" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="520" rx="28" fill="#f7f8f5"/>
+  <rect x="28" y="28" width="1044" height="464" rx="22" fill="#ffffff" stroke="#d9ded6"/>
+  <text x="62" y="76" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="26" font-weight="800" fill="#121821">Standard voice-agent pipeline</text>
+  <text x="62" y="105" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" fill="#66717e">The agent usually reaches speech after generating an answer. Verification lives inside the agent loop.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="182" width="136" height="88" rx="18" fill="#121821"/>
+    <text x="128" y="216" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#ffffff">Caller</text>
+    <text x="128" y="242" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="13" fill="#aeb7c2">audio input</text>
+  </g>
+
+  <path d="M 206 226 L 278 226" stroke="#263241" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="290" y="172" width="172" height="108" rx="20" fill="#eef7f4" stroke="#7fb7aa"/>
+    <text x="376" y="210" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="16" font-weight="800" fill="#0f5b51">ElevenLabs</text>
+    <text x="376" y="235" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#121821">Speech to Text</text>
+    <text x="376" y="258" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">transcript</text>
+  </g>
+
+  <path d="M 474 226 L 546 226" stroke="#263241" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="558" y="172" width="172" height="108" rx="20" fill="#f2f4f7" stroke="#b9c1cc"/>
+    <text x="644" y="210" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="16" font-weight="800" fill="#121821">Agent LLM</text>
+    <text x="644" y="235" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#334155">compose answer</text>
+    <text x="644" y="258" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">may call tools</text>
+  </g>
+
+  <path d="M 742 226 L 814 226" stroke="#263241" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="826" y="172" width="172" height="108" rx="20" fill="#eef7f4" stroke="#7fb7aa"/>
+    <text x="912" y="210" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="16" font-weight="800" fill="#0f5b51">ElevenLabs</text>
+    <text x="912" y="235" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#121821">Text to Speech</text>
+    <text x="912" y="258" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#66717e">spoken reply</text>
+  </g>
+
+  <path d="M 650 286 C 650 356 504 356 504 286" fill="none" stroke="#9da7b3" stroke-width="2.5" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+  <rect x="472" y="336" width="210" height="58" rx="14" fill="#fff8e6" stroke="#dfb85c"/>
+  <text x="577" y="360" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="13" font-weight="800" fill="#7a4d00">Optional tools / RAG</text>
+  <text x="577" y="381" text-anchor="middle" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="12" fill="#765d28">policy, docs, account data</text>
+
+  <g>
+    <line x1="60" y1="432" x2="998" y2="432" stroke="#d7ddd6"/>
+    <circle cx="122" cy="432" r="7" fill="#121821"/>
+    <circle cx="376" cy="432" r="7" fill="#0f5b51"/>
+    <circle cx="644" cy="432" r="7" fill="#6b7280"/>
+    <circle cx="912" cy="432" r="7" fill="#0f5b51"/>
+    <text x="60" y="462" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#121821">One speech path</text>
+    <text x="186" y="462" font-family="Aptos, Helvetica, Arial, sans-serif" font-size="13" fill="#66717e">Every turn tends to end in generated speech unless the agent decides otherwise.</text>
+  </g>
+</svg>
