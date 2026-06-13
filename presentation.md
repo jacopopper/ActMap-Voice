@@ -1,101 +1,64 @@
-# ActMap Voice Presentation
+# ActMap Voice: 90-Second Presentation
 
-## Deck Goal
+## Review Constraint
 
-Tell a simple hackathon story:
+All material must be reviewable in **1:30 total**, so the submission should use:
 
-> ElevenLabs gives us the voice-agent pipeline. ActMap improves the critical route decision before the reply is spoken.
+- a `60-75s` demo video;
+- a `5-slide` presentation;
+- one short notes block with links and caveats.
 
-Keep the wording precise:
+Do not make judges read the long evidence files during review. Those files are only backup.
 
-- Say **before the user hears the reply** or **before speech**.
-- Avoid saying **instant**, **Token-Zero**, or **first forward pass** unless we build the prefill-only version.
-- Do not pitch "local" as the product constraint. Say the demo uses a fixed LLM activation signal; local execution is the current implementation detail.
+## One-Sentence Story
 
-Recommended length: 10 main slides plus 2 backup slides.
-
-## One-Phrase Flow
-
-1. **ElevenLabs already gives developers the full voice-agent pipeline.**
-2. **The critical moment in that pipeline is the branch before the agent responds.**
-3. **Text-based routing detects intent, but not whether the model actually knows enough to speak.**
-4. **That creates the dilemma: answer fast and risk hallucination, or verify everything and add cost and silence.**
-5. **ActMap solves the branch decision by reading hidden activations as uncertainty and risk signal.**
-6. **The product route is simple: `ANSWER`, `VERIFY`, or `ESCALATE` before the reply is spoken.**
-7. **The demo shows one ElevenLabs voice agent taking all three paths on realistic support requests.**
-8. **The science is credible: ActMap is the strongest UQ method in our project benchmark.**
-9. **The pilot product benchmark is stronger: ActMap is more accurate and faster than a text-only LM router.**
-10. **The business case is scale: ElevenLabs orchestrates the conversation; ActMap gives it a better routing signal.**
+ElevenLabs gives us the voice-agent pipeline; ActMap improves the critical route decision before the reply is spoken by using LLM activation maps instead of transcript-only routing.
 
 ## Slide 1: ElevenLabs Pipeline
 
-**Phrase:** ElevenLabs already gives developers the full voice-agent pipeline.
+**Phrase:** ElevenLabs already gives us the voice-agent loop.
 
-**What to show:**
+**Show:**
 
 ```text
-User speech
-  -> ElevenLabs STT
-  -> Agent Workflow
-  -> LLM Conditions / tools / RAG / transfer
-  -> ElevenLabs TTS
+User speech -> ElevenLabs STT -> Agent Workflow -> ElevenLabs TTS
+```
+
+Then zoom into the workflow branch:
+
+```text
+route?
+  -> answer
+  -> verify with RAG/tools
+  -> escalate
 ```
 
 **On-slide copy:**
 
 ```text
 The voice interface is solved.
-The next frontier is the decision layer.
+The risky part is choosing the path before speech.
 ```
 
-**Speaker point:**
+**Say in video, ~10s:**
 
-Start with the platform. ElevenLabs gives us speech, agents, workflows, tools, RAG, and handoff paths. ActMap is not replacing that; it improves the route choice inside it.
+ElevenLabs already gives builders speech-to-text, agents, workflows, tools, RAG, and text-to-speech. ActMap focuses on the branch inside that pipeline: should the agent answer, verify, or escalate before the user hears a reply?
 
-## Slide 2: The Branch Point
+## Slide 2: The Problem
 
-**Phrase:** The critical moment in that pipeline is the branch before the agent responds.
+**Phrase:** Transcript routing sees intent, but not whether the model should speak.
 
-**What to show:**
-
-Zoom into the workflow branch:
+**Show:**
 
 ```text
-Transcript
-  -> route?
-    -> answer now
-    -> retrieve / call tools
-    -> transfer to human
-```
-
-**On-slide copy:**
-
-```text
-Every turn asks the same question:
-can the agent safely speak now?
-```
-
-**Speaker point:**
-
-This is the product decision that matters: answer, verify, or escalate. It is not only about what the user asked; it is about what action is safe.
-
-## Slide 3: Text Routing Gap
-
-**Phrase:** Text-based routing detects intent, but not whether the model actually knows enough to speak.
-
-**What to show:**
-
-Two rows:
-
-```text
-Native text condition:
+Text route:
 "This is about billing."
 
-ActMap route:
-"This billing turn needs live account data or escalation."
+Operational route:
+"Can the agent safely answer this billing request out loud?"
 ```
 
-Example contrast:
+Examples:
 
 ```text
 "Where is the refund policy?"      -> ANSWER
@@ -106,184 +69,61 @@ Example contrast:
 **On-slide copy:**
 
 ```text
-Intent is not enough.
-Voice agents need reliability routing.
+Fast memory can hallucinate.
+Always-RAG adds cost and awkward silence.
+Late escalation creates spoken brand risk.
 ```
 
-**Speaker point:**
+**Say in video, ~15s:**
 
-LLM Conditions are useful for semantic routing, but ActMap targets a different question: does the model know enough to answer out loud, or should the workflow take a safer path?
+Native text conditions are good at intent. But support routing is more than intent. A refund question might be a simple policy answer, an account-specific lookup, or a legal escalation. If we verify everything, the conversation gets slower and more expensive. If we answer everything from memory, the voice agent can confidently say the wrong thing.
 
-## Slide 4: The Dilemma
+## Slide 3: ActMap Solution
 
-**Phrase:** Answer fast and risk hallucination, or verify everything and add cost and silence.
+**Phrase:** ActMap routes from hidden activations, not only transcript text.
 
-**What to show:**
-
-Split screen:
-
-```text
-Answer from memory
-  + fast
-  + cheap
-  - hallucination risk
-
-Verify every turn
-  + safer
-  - RAG/tool latency
-  - extra cost
-  - awkward filler speech
-```
-
-**On-slide copy:**
-
-```text
-Voice makes latency visible.
-Wrong answers become spoken brand risk.
-```
-
-**Speaker point:**
-
-In text chat, an extra second is annoying. In voice, it is silence. At the same time, a confident wrong spoken answer feels more authoritative and more dangerous.
-
-## Slide 5: ActMap Insight
-
-**Phrase:** ActMap solves the branch decision by reading hidden activations as uncertainty and risk signal.
-
-**What to show:**
+**Show:**
 
 ```text
 Transcript
   -> fixed LLM private pass
   -> hidden activations
-  -> activation map
-  -> small CV router
-```
-
-Show an activation-map heatmap labelled:
-
-```text
-12 x 32 x 128 activation map
+  -> 12 x 32 x 128 activation map
+  -> ViT router
+  -> ANSWER | VERIFY | ESCALATE
 ```
 
 **On-slide copy:**
 
 ```text
-Instead of asking another prompt,
-ActMap looks inside the model.
+ElevenLabs handles voice.
+ActMap handles judgment before speech.
 ```
 
-**Speaker point:**
+**Say in video, ~15s:**
 
-The novelty is not another text classifier. The route comes from the model's internal activation trajectory.
+ActMap runs a fixed model privately, converts hidden activations into an image-like activation map, and classifies the operational route with a small vision model. The result can feed ElevenLabs Workflows as a route variable: answer directly, verify with tools or RAG, or hand off to a human.
 
-## Slide 6: Product Route
+## Slide 4: Demo And Results
 
-**Phrase:** The product route is simple: `ANSWER`, `VERIFY`, or `ESCALATE` before the reply is spoken.
+**Phrase:** In the pilot, ActMap is more accurate and faster than a text-only LM router.
 
-**What to show:**
+**Show one demo row per route:**
 
 ```text
-ElevenLabs STT
-  -> ActMap route
-    -> ANSWER: speak directly
-    -> VERIFY: RAG / tools / account data
-    -> ESCALATE: human handoff
-  -> ElevenLabs TTS or transfer
+ANSWER:   "Where do I find the conversation simulator?"
+VERIFY:   "Who mentioned me in comments this month?"
+ESCALATE: "Someone used my card without permission."
 ```
+
+**Show results table:**
+
+| Router | Accuracy | Macro F1 | Routing speed |
+| --- | ---: | ---: | ---: |
+| ActMap + ViT | 96.18% | 0.9619 | 390.7 rows/s |
+| Text-only LM router | 91.01% | 0.9110 | 86.4 rows/s |
 
 **On-slide copy:**
-
-```text
-Same voice experience.
-Better decision before speech.
-```
-
-**Speaker point:**
-
-This is the integration story: ActMap returns a route variable, and ElevenLabs Workflows use that route to choose the next node.
-
-## Slide 7: Demo Story
-
-**Phrase:** The demo shows one ElevenLabs voice agent taking all three paths on realistic support requests.
-
-**What to show:**
-
-Three columns:
-
-```text
-ANSWER
-"Where do I find the conversation simulator?"
-Stable product knowledge.
-
-VERIFY
-"Who mentioned me in comments this month?"
-Needs live workspace data.
-
-ESCALATE
-"Someone used my card without permission."
-Risky payment/security issue.
-```
-
-**On-slide copy:**
-
-```text
-One voice agent.
-Three operational outcomes.
-```
-
-**Speaker point:**
-
-The demo should make the routing visible: transcript, activation-map thumbnail, route badge, action taken, spoken response.
-
-## Slide 8: UQ Evidence
-
-**Phrase:** The science is credible: ActMap is the strongest UQ method in our project benchmark.
-
-**What to show:**
-
-| Method | Signal | AUROC |
-| --- | --- | ---: |
-| ActMap ViT2D ensemble | activation map | 0.8856 |
-| MTE | black-box generations | 0.8132 |
-| DRIFT | white-box activations | 0.7593 |
-| Linear probe | hidden-state probe | 0.7342 |
-
-Small transfer note:
-
-```text
-TriviaQA -> NQ-Open:
-ActMap 0.8438 AUROC vs DRIFT 0.6732
-```
-
-**On-slide copy:**
-
-```text
-Activation maps beat the strongest evaluated black-box
-and reproduced white-box baselines.
-```
-
-**Speaker point:**
-
-Use the exact boundary: strongest UQ method in our project benchmark, not a universal claim across all UQ literature.
-
-**Source/artifact:**
-
-- `/home/jacopodardini/uni/EinAI/white_box_uq/doc/report.pdf`
-- `submission/evidence.md`
-
-## Slide 9: Router Benchmark
-
-**Phrase:** The pilot product benchmark is stronger: ActMap is more accurate and faster than a text-only LM router.
-
-**What to show:**
-
-| Router | Input | Accuracy | Macro F1 | Routing speed |
-| --- | --- | ---: | ---: | ---: |
-| ActMap + ViT | activation map | 96.18% | 0.9619 | 390.7 rows/s |
-| Text-only LM router | transcript text | 91.01% | 0.9110 | 86.4 rows/s |
-
-Delta callout:
 
 ```text
 +5.17 accuracy points
@@ -291,138 +131,79 @@ Delta callout:
 ~4.5x faster final routing step
 ```
 
-Optional small confusion-matrix visual:
+**Say in video, ~20s:**
+
+The demo shows one ElevenLabs voice agent taking three paths: answer, verify, and escalate. On our pilot router benchmark, ActMap plus ViT reaches 96.18% accuracy, compared with 91.01% for a text-only LM router. The final routing step is also about 4.5 times faster once ActMaps exist.
+
+**Caveat for notes, not main slide:**
+
+The speed comparison is for routing once ActMaps exist. Current ActMap extraction is still unoptimized and dominates end-to-end latency.
+
+## Slide 5: Why It Matters
+
+**Phrase:** Better routing saves money, latency, and bad handoffs at voice-agent scale.
+
+**Show:**
 
 ```text
-Rows=true, cols=pred [ANSWER, VERIFY, ESCALATE]
-
-ActMap + ViT:
-[[139, 8,   0],
- [8,   142, 0],
- [0,   1,   147]]
-
-Text-only LM:
-[[123, 24, 0],
- [4,   145, 1],
- [3,   8,   137]]
-```
-
-**On-slide copy:**
-
-```text
-Pilot result:
-activation routing beats asking an LM
-to classify the transcript directly.
-```
-
-Concrete demo contrast:
-
-| User says | Dataset route | Text-only LM | ActMap |
-| --- | --- | --- | --- |
-| "Is there a newer version of the desktop app available for me?" | `VERIFY` | `ANSWER` | `VERIFY` |
-| "Do you have a migration guide?" | `ANSWER` | `VERIFY` | `ANSWER` |
-
-```text
-One catches a risky unsupported answer.
-One skips an unnecessary verification path.
-```
-
-**Speaker point:**
-
-This is the clean product claim: once ActMaps exist, the final ActMap + ViT router is both more accurate and cheaper/faster than using a language model to classify the transcript directly. Caveat: the current ActMap extraction pass is still unoptimized and dominates end-to-end latency.
-
-**Source/artifact:**
-
-- `submission/router-benchmark.md`
-- `runs/router_benchmark/test_qwen3_lm_vs_vit.json`
-- Error-prevention example: benchmark row `id=2084`, ActMap predicted `VERIFY` with softmax `0.9768`.
-- Cost-saving example: benchmark row `id=1628`, ActMap predicted `ANSWER` with softmax `0.9863`.
-
-## Slide 10: Business Case And Close
-
-**Phrase:** The business case is scale: ElevenLabs orchestrates the conversation; ActMap gives it a better routing signal.
-
-**What to show:**
-
-Big calculator:
-
-```text
-Router benchmark label mix:
-66.3% of turns do not need RAG
-
 Scenario:
 10M voice turns/day
 $0.02 avoidable RAG/tool path
+66.3% turns do not need RAG in benchmark mix
 
 Always verify:
 ~$133k/day wasted
 ~$48M/year
 
 ActMap vs text-only LM:
-5.84 points fewer VERIFY/RAG routes
-~$11.7k/day avoided calls
-~$4.3M/year
 ~517k more correct routes/day
-```
-
-Close with:
-
-```text
-Listen -> Route -> Act -> Speak
+~$4.3M/year avoided RAG/tool calls
 ```
 
 **On-slide copy:**
 
 ```text
-Less unnecessary RAG.
-Less awkward latency.
-Earlier escalation.
-Safer spoken agents.
+Listen -> Route -> Act -> Speak
+
+ElevenLabs orchestrates the conversation.
+ActMap gives it a better route signal.
 ```
 
-**Speaker point:**
+**Say in video, ~15s:**
 
-End with the partnership story. ElevenLabs provides the voice and workflow layer; ActMap provides a better activation-grounded route signal before speech.
+At scale, routing compounds. Better route decisions mean fewer unnecessary RAG calls, less waiting, and earlier human handoff on risky turns. The pitch is simple: ElevenLabs orchestrates the conversation; ActMap gives those workflows a better signal before speech.
 
-## Backup Slide A: ElevenLabs Dry Run
-
-**Phrase:** The ElevenLabs voice loop works in our demo environment.
-
-**What to show:**
+## 75-Second Video Script
 
 ```text
-TTS: passed
-STT: passed
-Transcript matched the generated demo line
+ElevenLabs already gives developers the full voice-agent loop: speech-to-text, agent workflows, tools, RAG, transfer paths, and text-to-speech.
+
+ActMap Voice focuses on the critical branch inside that loop. Before the agent speaks, should it answer, verify external information, or escalate to a human?
+
+Text-based routing can tell that a user is asking about billing or refunds, but it cannot see whether the model actually knows enough to answer out loud. That creates the voice-agent dilemma: answer fast and risk hallucination, or verify everything and add cost and awkward silence.
+
+ActMap routes from the model's hidden activations. We run a fixed model privately, convert its hidden states into a 12 by 32 by 128 activation map, and use a small vision router to choose ANSWER, VERIFY, or ESCALATE.
+
+In the demo, ElevenLabs handles STT and TTS, while ActMap changes the workflow path. A stable product question gets answered immediately. A live account question goes to verification. A payment or security issue escalates instead of being improvised out loud.
+
+On our pilot benchmark, ActMap plus ViT reaches 96.18% accuracy, versus 91.01% for a text-only LM router, and the final router is about 4.5 times faster once ActMaps exist.
+
+At voice-agent scale, that means fewer unnecessary RAG calls, less latency, and safer handoffs. ElevenLabs orchestrates the conversation; ActMap gives it a better route signal before speech.
 ```
 
-**Source/artifact:**
+## Submission Form Copy
 
-- `submission/elevenlabs_dry_run.py`
-- `submission/demo_artifacts/elevenlabs_dry_run.mp3`
-- `submission/demo_artifacts/elevenlabs_dry_run_stt.json`
+**Project name:** ActMap Voice
 
-## Backup Slide B: Claim Boundaries
-
-**Phrase:** We measured the routing signal now; full workflow integration is the next engineering step.
-
-**What to show:**
+**Elevator pitch:**
 
 ```text
-Measured now:
-- ElevenLabs STT/TTS dry run
-- ActMap UQ benchmark from report
-- Pilot ActMap router vs text-only LM baseline
-- Scenario cost model
-
-Next:
-- Prefill-only / Token-Zero activation route
-- Optimize ActMap extraction latency
-- Full ElevenLabs Workflow integration
-- Larger real customer-support routing dataset
-- End-to-end latency benchmark
+ActMap Voice routes ElevenLabs agents using LLM activation signals, deciding whether to answer, verify with RAG/tools, or escalate before the user hears an unsafe or slow reply.
 ```
 
-**Speaker point:**
+**Notes:**
 
-This keeps the pitch credible: strong pilot evidence, clear architecture, and obvious next work.
+```text
+Review path under 1:30: watch the short demo video, then skim the 5-slide deck. GitHub contains the runnable ElevenLabs STT/TTS dry run, router benchmark code, and backup evidence notes. Caveat: the 4.5x speed result is for the final routing step once ActMaps exist; ActMap extraction latency is still unoptimized in the prototype.
+```
+

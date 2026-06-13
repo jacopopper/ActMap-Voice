@@ -2,6 +2,16 @@
 
 This folder contains the hackathon submission structure for ActMap Voice: the pitch, the demo flow, and the integration plan that uses ElevenLabs for the voice interface while keeping the activation model local.
 
+## Reviewer Path
+
+The hackathon review limit is `1:30` total, so the primary materials are intentionally short:
+
+1. Watch the `60-75s` demo video.
+2. Skim the `5-slide` presentation generated from `../presentation.md`.
+3. Use `review-package.md` for the exact GitHub/video/presentation links and short notes.
+
+Everything else in this folder is backup evidence for judges who want more detail.
+
 ## Submission Claim
 
 ActMap Voice is a pre-speech decision layer for AI voice agents. Before the agent talks, it routes the user request into one of three actions:
@@ -14,7 +24,9 @@ The core differentiator is that the route is not based only on keywords or an LL
 
 ## Folder Structure
 
-- `presentation-outline.md`: slide-by-slide submission narrative.
+- `review-package.md`: short submission-form source of truth.
+- `../presentation.md`: 5-slide, 90-second presentation plan and video script.
+- `presentation-outline.md`: longer backup slide narrative.
 - `pipeline.md`: technical architecture for ElevenLabs plus local ActMap routing.
 - `demo-script.md`: live demo sequence, prompts, and fallback plan.
 - `evidence.md`: literature and product rationale for why this is a real pain point.
@@ -22,6 +34,7 @@ The core differentiator is that the route is not based only on keywords or an LL
 - `elevenlabs-native-vs-actmap.md`: comparison between native ElevenLabs workflow routing and ActMap activation routing.
 - `cost-performance-slide-plan.md`: lightweight slide plan for cost, latency, and text-baseline comparison.
 - `rag-cost-estimate.md`: scenario-based dollar estimates for unnecessary RAG/tool routing.
+- `router-benchmark.md`: compact ActMap-vs-text-only-LM router benchmark.
 - `elevenlabs_dry_run.py`: repeatable live API smoke test for ElevenLabs TTS and STT.
 
 ## Required Positioning
