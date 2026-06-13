@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ActMap Voice Demo Console</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #030507;
+    --panel: rgba(8, 15, 19, 0.88);
+    --panel-strong: rgba(10, 20, 25, 0.96);
+    --line: rgba(115, 238, 219, 0.18);
+    --line-hot: rgba(115, 238, 219, 0.54);
+    --text: #eff9f6;
+    --muted: #8fa39f;
+    --dim: #53635f;
+    --teal: #31f1d6;
+    --teal-2: #0aa895;
+    --amber: #ffbf4d;
+    --amber-soft: rgba(255, 191, 77, 0.13);
+    --red: #ff4d5d;
+    --red-soft: rgba(255, 77, 93, 0.14);
+    --green: #6bf0a8;
+    --blue: #84a9ff;
+    --scan-x: 0%;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    color: var(--text);
+    font-family: Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+  }
+
+  .stage {
+    position: relative;
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(6, 19, 22, 0.72), rgba(3, 5, 7, 0.98)),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 7px),
+      repeating-linear-gradient(90deg, rgba(49, 241, 214, 0.026) 0 1px, transparent 1px 12px),
+      var(--bg);
+    isolation: isolate;
+  }
+
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(49, 241, 214, 0.06), transparent 22%, transparent 78%, rgba(255, 77, 93, 0.06)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 14%, transparent 82%, rgba(0, 0, 0, 0.34));
+    mix-blend-mode: screen;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  .topbar,
+  .workspace,
+  .terminal-strip {
+    position: absolute;
+    z-index: 2;
+  }
+
+  .topbar {
+    top: 26px;
+    left: 34px;
+    right: 34px;
+    height: 58px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 18px var(--teal);
+  }
+
+  h1 {
+    margin: 7px 0 0;
+    font-size: clamp(24px, 2.35vw, 42px);
+    line-height: 1;
+    letter-spacing: 0;
+    font-weight: 780;
+  }
+
+  .top-metric,
+  .replay {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    background: rgba(5, 12, 15, 0.72);
+    color: var(--text);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .top-metric {
+    min-width: 188px;
+    padding: 0 15px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+  }
+
+  .timer {
+    color: var(--teal);
+    margin-right: 10px;
+  }
+
+  .replay {
+    min-width: 92px;
+    padding: 0 18px;
+    cursor: pointer;
+    border-color: rgba(49, 241, 214, 0.36);
+    color: var(--teal);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+  }
+
+  .replay:hover {
+    background: rgba(49, 241, 214, 0.08);
+  }
+
+  .workspace {
+    left: 34px;
+    right: 34px;
+    top: 104px;
+    bottom: 166px;
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr) 390px;
+    gap: 18px;
+  }
+
+  .panel {
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+  }
+
+  .panel-title {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    border-bottom: 1px solid rgba(115, 238, 219, 0.14);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .panel-title strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--teal);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+  }
+
+  .live-dot::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 18px var(--teal);
+    animation: livePulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 0.45; transform: scale(0.82); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+
+  .trace-panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trace-list {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+    flex: 1;
+    align-content: start;
+  }
+
+  .trace-item {
+    position: relative;
+    padding: 14px 14px 14px 45px;
+    min-height: 92px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.025);
+    opacity: 0.32;
+    transform: translateY(8px);
+    transition: opacity 420ms ease, transform 420ms ease, border-color 420ms ease, background 420ms ease;
+  }
+
+  .trace-item.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: rgba(49, 241, 214, 0.32);
+    background: linear-gradient(90deg, rgba(49, 241, 214, 0.07), rgba(255, 255, 255, 0.022));
+  }
+
+  .trace-item.is-hot {
+    border-color: rgba(255, 77, 93, 0.42);
+    background: linear-gradient(90deg, rgba(255, 77, 93, 0.11), rgba(255, 255, 255, 0.024));
+  }
+
+  .trace-index {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(143, 163, 159, 0.38);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+
+  .trace-item.is-active .trace-index {
+    color: var(--bg);
+    border-color: var(--teal);
+    background: var(--teal);
+  }
+
+  .trace-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  .trace-copy {
+    margin: 0;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.26;
+  }
+
+  .trace-copy.small {
+    color: var(--muted);
+    font-size: 13px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+
+  .warnText {
+    color: var(--amber);
+  }
+
+  .hotText {
+    color: var(--red);
+  }
+
+  .cursor::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 17px;
+    margin-left: 3px;
+    background: var(--teal);
+    transform: translateY(3px);
+    animation: blink 800ms steps(2, end) infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .map-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-color: rgba(49, 241, 214, 0.28);
+    background:
+      linear-gradient(180deg, rgba(10, 24, 28, 0.96), rgba(3, 5, 7, 0.88)),
+      var(--panel-strong);
+  }
+
+  .map-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    border-bottom: 1px solid rgba(115, 238, 219, 0.14);
+    background: rgba(115, 238, 219, 0.1);
+  }
+
+  .meta-cell {
+    min-width: 0;
+    padding: 14px 16px;
+    background: rgba(4, 9, 12, 0.74);
+  }
+
+  .meta-cell span {
+    display: block;
+    color: var(--dim);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+    margin-bottom: 7px;
+  }
+
+  .meta-cell strong {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .map-frame {
+    position: relative;
+    flex: 1;
+    min-height: 420px;
+    margin: 18px;
+    border: 1px solid rgba(115, 238, 219, 0.2);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
+      #020405;
+    overflow: hidden;
+  }
+
+  .map-frame::before,
+  .map-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .map-frame::before {
+    z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(49, 241, 214, 0.1), transparent 12%, transparent 88%, rgba(255, 77, 93, 0.08)),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 9.1%),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 33.333%);
+    opacity: 0.46;
+  }
+
+  .map-frame::after {
+    z-index: 3;
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.7), inset 0 0 24px rgba(49, 241, 214, 0.15);
+  }
+
+  #actmapCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .scanline {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--scan-x);
+    z-index: 4;
+    width: 2px;
+    opacity: 0;
+    background: linear-gradient(180deg, transparent, var(--teal), #fff, var(--teal), transparent);
+    box-shadow: 0 0 24px var(--teal), 0 0 64px rgba(49, 241, 214, 0.5);
+    transform: translateX(-1px);
+    transition: opacity 200ms ease;
+  }
+
+  .scanline.is-active {
+    opacity: 1;
+  }
+
+  .lock-badge {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 5;
+    min-width: 270px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 77, 93, 0.52);
+    background: rgba(30, 6, 10, 0.86);
+    box-shadow: 0 0 46px rgba(255, 77, 93, 0.28);
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    transition: opacity 420ms ease, transform 420ms ease;
+  }
+
+  .lock-badge.is-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: routePulse 1500ms ease-in-out 3;
+  }
+
+  @keyframes routePulse {
+    50% { box-shadow: 0 0 76px rgba(255, 77, 93, 0.56); border-color: rgba(255, 255, 255, 0.75); }
+  }
+
+  .lock-badge span {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+    margin-bottom: 7px;
+  }
+
+  .lock-badge strong {
+    display: block;
+    color: var(--red);
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .caption {
+    margin: 0 18px 18px;
+    min-height: 54px;
+    display: grid;
+    align-items: center;
+    border-top: 1px solid rgba(115, 238, 219, 0.14);
+    padding-top: 14px;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .caption strong {
+    color: var(--text);
+    font-weight: 720;
+  }
+
+  .route-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .route-stack {
+    padding: 16px;
+    display: grid;
+    gap: 14px;
+  }
+
+  .route-block {
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    background: rgba(255, 255, 255, 0.026);
+    padding: 16px;
+    opacity: 0.38;
+    transform: translateX(8px);
+    transition: opacity 420ms ease, transform 420ms ease, border-color 420ms ease, background 420ms ease;
+  }
+
+  .route-block.is-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .route-block.is-wrong {
+    border-color: rgba(255, 191, 77, 0.48);
+    background: var(--amber-soft);
+  }
+
+  .route-block.is-correct {
+    border-color: rgba(255, 77, 93, 0.58);
+    background: var(--red-soft);
+  }
+
+  .route-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .route-name {
+    min-width: 0;
+  }
+
+  .route-name span {
+    display: block;
+    color: var(--dim);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .route-name strong {
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.1;
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    min-width: 104px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .pill.verify {
+    color: var(--amber);
+    border-color: rgba(255, 191, 77, 0.6);
+    background: rgba(255, 191, 77, 0.08);
+  }
+
+  .pill.escalate {
+    color: var(--red);
+    border-color: rgba(255, 77, 93, 0.7);
+    background: rgba(255, 77, 93, 0.1);
+  }
+
+  .flag {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 9px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 800;
+  }
+
+  .is-wrong .flag {
+    color: var(--amber);
+    border-color: rgba(255, 191, 77, 0.48);
+  }
+
+  .is-correct .flag {
+    color: var(--red);
+    border-color: rgba(255, 77, 93, 0.58);
+  }
+
+  .reason {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .prob-panel {
+    margin: 2px 16px 0;
+    padding: 16px;
+    border: 1px solid rgba(115, 238, 219, 0.15);
+    background: rgba(0, 0, 0, 0.18);
+  }
+
+  .prob-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .prob-title strong {
+    color: var(--text);
+  }
+
+  .prob-row {
+    display: grid;
+    grid-template-columns: 82px minmax(0, 1fr) 64px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+  }
+
+  .prob-track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .prob-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--teal);
+    transition: width 1200ms cubic-bezier(.22, 1, .36, 1);
+  }
+
+  .prob-row.answer .prob-fill {
+    background: var(--green);
+  }
+
+  .prob-row.verify .prob-fill {
+    background: var(--amber);
+  }
+
+  .prob-row.escalate .prob-fill {
+    background: var(--red);
+    box-shadow: 0 0 20px rgba(255, 77, 93, 0.62);
+  }
+
+  .handoff {
+    margin: auto 16px 16px;
+    padding: 16px;
+    border: 1px solid rgba(255, 77, 93, 0.42);
+    background:
+      linear-gradient(90deg, rgba(255, 77, 93, 0.14), rgba(49, 241, 214, 0.04)),
+      rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 420ms ease, transform 420ms ease;
+  }
+
+  .handoff.is-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .handoff span {
+    display: block;
+    color: var(--red);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .handoff strong {
+    display: block;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .terminal-strip {
+    left: 34px;
+    right: 34px;
+    bottom: 26px;
+    height: 112px;
+    border: 1px solid rgba(115, 238, 219, 0.16);
+    background: rgba(1, 4, 6, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 20px 48px rgba(0, 0, 0, 0.45);
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+
+  .terminal-label {
+    border-right: 1px solid rgba(115, 238, 219, 0.12);
+    display: grid;
+    place-items: center;
+    color: var(--teal);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  .terminal-lines {
+    min-width: 0;
+    padding: 14px 18px;
+    display: grid;
+    align-content: center;
+    gap: 8px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .term-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+
+  .term-line.is-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .term-line .ok {
+    color: var(--teal);
+  }
+
+  .term-line .warn {
+    color: var(--amber);
+  }
+
+  .term-line .hot {
+    color: var(--red);
+  }
+
+  .missing-data {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    place-items: center;
+    padding: 40px;
+    background: #030507;
+    color: var(--text);
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  }
+
+  .missing-data.is-active {
+    display: grid;
+  }
+
+  @media (max-width: 1200px) {
+    .workspace {
+      grid-template-columns: 300px minmax(0, 1fr) 320px;
+      gap: 12px;
+    }
+
+    .trace-copy {
+      font-size: 14px;
+    }
+
+    .route-head {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .pill {
+      min-width: 96px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="topbar">
+    <div class="brand">
+      <div class="eyebrow">ActMap Voice / offline replay</div>
+      <h1>Pre-speech routing console</h1>
+    </div>
+    <div class="top-metric"><span class="timer" id="timer">00.0s</span> id=2055</div>
+    <button class="replay" id="replay" type="button">Replay</button>
+  </div>
+
+  <main class="workspace">
+    <section class="panel trace-panel" aria-label="Event trace">
+      <div class="panel-title">
+        <strong>Event trace</strong>
+        <span class="live-dot">live</span>
+      </div>
+      <div class="trace-list">
+        <article class="trace-item" data-step="stt">
+          <div class="trace-index">01</div>
+          <div class="trace-label">ElevenLabs STT</div>
+          <p class="trace-copy cursor" id="typedTranscript"></p>
+        </article>
+
+        <article class="trace-item" data-step="baseline">
+          <div class="trace-index">02</div>
+          <div class="trace-label">Text LM condition</div>
+          <p class="trace-copy small">route=<span class="warnText">VERIFY</span> raw_output=VERIFY</p>
+        </article>
+
+        <article class="trace-item" data-step="extract">
+          <div class="trace-index">03</div>
+          <div class="trace-label">ActMap extraction</div>
+          <p class="trace-copy small">model=Qwen/Qwen3-8B<br />actmap_shape=12x32x128</p>
+        </article>
+
+        <article class="trace-item" data-step="route">
+          <div class="trace-index">04</div>
+          <div class="trace-label">Vision router</div>
+          <p class="trace-copy small">route=<span class="hotText">ESCALATE</span> confidence=0.9916</p>
+        </article>
+
+        <article class="trace-item" data-step="handoff">
+          <div class="trace-index">05</div>
+          <div class="trace-label">Workflow handoff</div>
+          <p class="trace-copy small">billing-risk queue -> human escalation before speech</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel map-panel" aria-label="ActMap heatmap">
+      <div class="panel-title">
+        <strong>12 x 32 x 128 ActMap</strong>
+        <span id="rowSource">row id=2055 / test split</span>
+      </div>
+
+      <div class="map-meta">
+        <div class="meta-cell">
+          <span>source</span>
+          <strong>Qwen/Qwen3-8B</strong>
+        </div>
+        <div class="meta-cell">
+          <span>capture</span>
+          <strong>decode / 34 tokens</strong>
+        </div>
+        <div class="meta-cell">
+          <span>clip</span>
+          <strong id="clipRange">p02..p98</strong>
+        </div>
+        <div class="meta-cell">
+          <span>router</span>
+          <strong>ViT2D checkpoint</strong>
+        </div>
+      </div>
+
+      <div class="map-frame">
+        <canvas id="actmapCanvas" width="536" height="112"></canvas>
+        <div class="scanline" id="scanline"></div>
+        <div class="lock-badge" id="lockBadge">
+          <span>ActMap vision router</span>
+          <strong>ESCALATE</strong>
+        </div>
+      </div>
+
+      <p class="caption" id="caption">
+        The language-model condition sees billing and routes to verify.
+      </p>
+    </section>
+
+    <section class="panel route-panel" aria-label="Route comparison">
+      <div class="panel-title">
+        <strong>Route comparison</strong>
+        <span>ANSWER / VERIFY / ESCALATE</span>
+      </div>
+
+      <div class="route-stack">
+        <article class="route-block" data-step="baseline">
+          <div class="route-head">
+            <div class="route-name">
+              <span>Text LM condition</span>
+              <strong>Transcript-only route</strong>
+            </div>
+            <div class="pill verify">VERIFY</div>
+          </div>
+          <div class="flag">wrong</div>
+          <p class="reason">Sees an invoice problem and chooses an account lookup path.</p>
+        </article>
+
+        <article class="route-block" data-step="route">
+          <div class="route-head">
+            <div class="route-name">
+              <span>ActMap vision router</span>
+              <strong>Activation route</strong>
+            </div>
+            <div class="pill escalate">ESCALATE</div>
+          </div>
+          <div class="flag">correct</div>
+          <p class="reason">Detects unauthorized charge risk in the hidden-state trajectory.</p>
+        </article>
+      </div>
+
+      <div class="prob-panel">
+        <div class="prob-title">
+          <strong>softmax</strong>
+          <span>confidence=0.9916</span>
+        </div>
+        <div class="prob-row answer">
+          <span>ANSWER</span>
+          <div class="prob-track"><i class="prob-fill" id="probAnswer"></i></div>
+          <span id="probAnswerText">0.0031</span>
+        </div>
+        <div class="prob-row verify">
+          <span>VERIFY</span>
+          <div class="prob-track"><i class="prob-fill" id="probVerify"></i></div>
+          <span id="probVerifyText">0.0053</span>
+        </div>
+        <div class="prob-row escalate">
+          <span>ESCALATE</span>
+          <div class="prob-track"><i class="prob-fill" id="probEscalate"></i></div>
+          <span id="probEscalateText">0.9916</span>
+        </div>
+      </div>
+
+      <div class="handoff" id="handoff">
+        <span>workflow handoff</span>
+        <strong>Queue urgent billing escalation before ElevenLabs TTS.</strong>
+      </div>
+    </section>
+  </main>
+
+  <section class="terminal-strip" aria-label="Terminal trace">
+    <div class="terminal-label">replay log</div>
+    <div class="terminal-lines">
+      <div class="term-line" data-log="1">$ python -m src.benchmark_router --split test --row-id 2055</div>
+      <div class="term-line" data-log="2">[elevenlabs:stt] transcript="<span id="termTranscript"></span>"</div>
+      <div class="term-line" data-log="3">[baseline:text-lm] route=<span class="warn">VERIFY</span> expected=<span class="hot">ESCALATE</span></div>
+      <div class="term-line" data-log="4">[actmap:route] route=<span class="hot">ESCALATE</span> confidence=<span class="ok">0.9916</span> actmap_shape=12x32x128</div>
+    </div>
+  </section>
+
+  <div class="missing-data" id="missingData">
+    Missing submission/actmap_demo_data.js. Run submission/export_actmap_demo_data.py first.
+  </div>
+
+  <audio id="voiceoverAudio" preload="auto" src="demo_artifacts/actmap_voiceover.mp3"></audio>
+</div>
+
+<script src="actmap_demo_data.js"></script>
+<script>
+(() => {
+  const data = window.ACTMAP_DEMO_DATA;
+  const missing = document.getElementById("missingData");
+  if (!data || !data.heatmap || !data.heatmap.data) {
+    missing.classList.add("is-active");
+    return;
+  }
+
+  const duration = 30;
+  const canvas = document.getElementById("actmapCanvas");
+  const ctx = canvas.getContext("2d", { alpha: false });
+  const scanline = document.getElementById("scanline");
+  const lockBadge = document.getElementById("lockBadge");
+  const handoff = document.getElementById("handoff");
+  const replay = document.getElementById("replay");
+  const voiceoverAudio = document.getElementById("voiceoverAudio");
+  const timer = document.getElementById("timer");
+  const caption = document.getElementById("caption");
+  const typedTranscript = document.getElementById("typedTranscript");
+  const termTranscript = document.getElementById("termTranscript");
+  const clipRange = document.getElementById("clipRange");
+  const stage = document.getElementById("stage");
+
+  const bytes = decodeBytes(data.heatmap.data);
+  const [channels, rows, cols] = data.heatmap.shape;
+  const tileCols = 4;
+  const gap = 8;
+  const tileRows = Math.ceil(channels / tileCols);
+  const gridWidth = tileCols * cols + (tileCols - 1) * gap;
+  const gridHeight = tileRows * rows + (tileRows - 1) * gap;
+
+  canvas.width = gridWidth;
+  canvas.height = gridHeight;
+  ctx.imageSmoothingEnabled = false;
+
+  const imageData = ctx.createImageData(gridWidth, gridHeight);
+  const transcript = data.query;
+  const confidence = Number(data.confidence || 0.9916);
+  const probs = data.probabilities || { ANSWER: 0.0031, VERIFY: 0.0053, ESCALATE: confidence };
+  const params = new URLSearchParams(window.location.search);
+  const initialElapsed = clamp(Number(params.get("t")) || 0, 0, duration);
+  const freezeFrame = params.has("freeze");
+
+  termTranscript.textContent = transcript;
+  clipRange.textContent = `${data.clip.p02.toFixed(2)}..${data.clip.p98.toFixed(2)}`;
+  document.querySelector(".top-metric").lastChild.textContent = ` id=${data.id}`;
+  if (voiceoverAudio) {
+    voiceoverAudio.addEventListener("loadedmetadata", () => {
+      if (Number.isFinite(voiceoverAudio.duration) && voiceoverAudio.duration > 0) {
+        voiceoverAudio.playbackRate = voiceoverAudio.duration / duration;
+      }
+    });
+  }
+
+  document.getElementById("probAnswerText").textContent = probs.ANSWER.toFixed(4);
+  document.getElementById("probVerifyText").textContent = probs.VERIFY.toFixed(4);
+  document.getElementById("probEscalateText").textContent = probs.ESCALATE.toFixed(4);
+
+  let start = performance.now() - initialElapsed * 1000;
+  let raf = 0;
+
+  replay.addEventListener("click", () => {
+    reset();
+    start = performance.now();
+    playVoiceover();
+    raf = requestAnimationFrame(tick);
+  });
+
+  reset();
+  update(initialElapsed);
+  if (!freezeFrame && initialElapsed < duration) {
+    playVoiceover();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    const elapsed = Math.min((now - start) / 1000, duration);
+    update(elapsed);
+    if (elapsed < duration) {
+      raf = requestAnimationFrame(tick);
+    }
+  }
+
+  function reset() {
+    cancelAnimationFrame(raf);
+    document.querySelectorAll(".is-active, .is-hot, .is-wrong, .is-correct").forEach((node) => {
+      node.classList.remove("is-active", "is-hot", "is-wrong", "is-correct");
+    });
+    document.querySelectorAll(".prob-fill").forEach((node) => {
+      node.style.width = "0";
+    });
+    typedTranscript.textContent = "";
+    caption.innerHTML = "The language-model condition sees billing and routes to verify.";
+    stage.style.setProperty("--scan-x", "0%");
+    drawHeatmap(0, 0);
+    if (voiceoverAudio) {
+      voiceoverAudio.pause();
+      voiceoverAudio.currentTime = 0;
+    }
+  }
+
+  function playVoiceover() {
+    if (!voiceoverAudio || freezeFrame) {
+      return;
+    }
+    voiceoverAudio.currentTime = 0;
+    const promise = voiceoverAudio.play();
+    if (promise && typeof promise.catch === "function") {
+      promise.then(() => {
+        replay.textContent = "Replay";
+      }).catch(() => {
+        replay.textContent = "Play";
+      });
+    }
+  }
+
+  function update(elapsed) {
+    timer.textContent = `${elapsed.toFixed(1).padStart(4, "0")}s`;
+
+    setActive("stt", elapsed >= 0.8);
+    setActive("baseline", elapsed >= 6.2);
+    setActive("extract", elapsed >= 10.6);
+    setActive("route", elapsed >= 21.2);
+    setActive("handoff", elapsed >= 25.8);
+
+    document.querySelectorAll('[data-step="baseline"]').forEach((node) => {
+      node.classList.toggle("is-wrong", elapsed >= 7.4);
+    });
+    document.querySelectorAll('[data-step="route"]').forEach((node) => {
+      node.classList.toggle("is-hot", elapsed >= 21.2);
+      node.classList.toggle("is-correct", elapsed >= 22.0);
+    });
+
+    for (const line of document.querySelectorAll("[data-log]")) {
+      line.classList.toggle("is-active", elapsed >= Number(line.dataset.log) * 3.4);
+    }
+
+    const typedCount = Math.floor(clamp((elapsed - 1.3) / 3.6, 0, 1) * transcript.length);
+    typedTranscript.textContent = transcript.slice(0, typedCount);
+    typedTranscript.classList.toggle("cursor", typedCount < transcript.length && elapsed >= 0.8);
+
+    const mapProgress = clamp((elapsed - 10.8) / 8.4, 0, 1);
+    drawHeatmap(mapProgress, elapsed);
+
+    const scanProgress = clamp((elapsed - 17.8) / 6.2, 0, 1);
+    stage.style.setProperty("--scan-x", `${(scanProgress * 100).toFixed(2)}%`);
+    scanline.classList.toggle("is-active", elapsed >= 17.8 && elapsed <= 24.8);
+
+    lockBadge.classList.toggle("is-active", elapsed >= 22.0);
+    handoff.classList.toggle("is-active", elapsed >= 25.8);
+
+    if (elapsed >= 21.2) {
+      caption.innerHTML = "<strong>ActMap sees operational risk in the model's activation trajectory</strong> and escalates before speech.";
+      fillProb("probAnswer", probs.ANSWER, 0.014);
+      fillProb("probVerify", probs.VERIFY, 0.018);
+      fillProb("probEscalate", probs.ESCALATE, 0.9916);
+    } else if (elapsed >= 6.2) {
+      caption.innerHTML = "The language-model condition sees billing and routes to <strong>VERIFY</strong>.";
+    }
+  }
+
+  function setActive(step, active) {
+    document.querySelectorAll(`[data-step="${step}"]`).forEach((node) => {
+      node.classList.toggle("is-active", active);
+    });
+  }
+
+  function fillProb(id, value, floorValue) {
+    const width = Math.max(value, floorValue) * 100;
+    document.getElementById(id).style.width = `${Math.min(width, 100).toFixed(2)}%`;
+  }
+
+  function drawHeatmap(progress, elapsed) {
+    const out = imageData.data;
+    out.fill(0);
+
+    for (let c = 0; c < channels; c += 1) {
+      const tileX = (c % tileCols) * (cols + gap);
+      const tileY = Math.floor(c / tileCols) * (rows + gap);
+      const channelDelay = c / channels * 0.28;
+      const channelProgress = clamp((progress - channelDelay) / 0.72, 0, 1);
+
+      for (let y = 0; y < rows; y += 1) {
+        const rowDrift = y / rows * 0.08;
+        for (let x = 0; x < cols; x += 1) {
+          const threshold = (x / cols) * 0.86 + rowDrift;
+          const sourceIndex = c * rows * cols + y * cols + x;
+          const reveal = smoothstep((channelProgress - threshold) / 0.22);
+          const base = bytes[sourceIndex];
+          const shimmer = elapsed < 22 ? Math.sin(elapsed * 5.7 + sourceIndex * 0.017) * 8 : 0;
+          const value = clampByte(base * (0.22 + 0.78 * reveal) + shimmer * reveal);
+          const color = palette(value, reveal);
+          const px = tileX + x;
+          const py = tileY + y;
+          const target = (py * gridWidth + px) * 4;
+          out[target] = color[0];
+          out[target + 1] = color[1];
+          out[target + 2] = color[2];
+          out[target + 3] = 255;
+        }
+      }
+    }
+
+    for (let y = 0; y < gridHeight; y += 1) {
+      for (let x = 0; x < gridWidth; x += 1) {
+        if (isGap(x, y)) {
+          const target = (y * gridWidth + x) * 4;
+          out[target] = 3;
+          out[target + 1] = 9;
+          out[target + 2] = 11;
+          out[target + 3] = 255;
+        }
+      }
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+    drawTileLabels(progress);
+  }
+
+  function drawTileLabels(progress) {
+    ctx.save();
+    ctx.font = "7px Consolas, monospace";
+    ctx.textBaseline = "top";
+    for (let c = 0; c < channels; c += 1) {
+      const tileX = (c % tileCols) * (cols + gap);
+      const tileY = Math.floor(c / tileCols) * (rows + gap);
+      ctx.fillStyle = progress > 0.18 ? "rgba(239, 249, 246, 0.72)" : "rgba(143, 163, 159, 0.32)";
+      ctx.fillText(`L${String(c + 1).padStart(2, "0")}`, tileX + 4, tileY + 4);
+    }
+    ctx.restore();
+  }
+
+  function isGap(x, y) {
+    const blockW = cols + gap;
+    const blockH = rows + gap;
+    return (x % blockW) >= cols || (y % blockH) >= rows;
+  }
+
+  function palette(value, reveal) {
+    const stops = [
+      [0, 3, 6, 10],
+      [30, 9, 25, 44],
+      [62, 13, 91, 116],
+      [100, 34, 206, 190],
+      [138, 202, 251, 141],
+      [178, 255, 188, 74],
+      [218, 255, 75, 93],
+      [255, 255, 245, 210],
+    ];
+    for (let i = 0; i < stops.length - 1; i += 1) {
+      const a = stops[i];
+      const b = stops[i + 1];
+      if (value <= b[0]) {
+        const t = (value - a[0]) / (b[0] - a[0]);
+        const glow = 0.32 + reveal * 0.68;
+        return [
+          Math.round(lerp(a[1], b[1], t) * glow),
+          Math.round(lerp(a[2], b[2], t) * glow),
+          Math.round(lerp(a[3], b[3], t) * glow),
+        ];
+      }
+    }
+    return [255, 245, 210];
+  }
+
+  function decodeBytes(base64) {
+    const binary = atob(base64);
+    const bytesOut = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) {
+      bytesOut[i] = binary.charCodeAt(i);
+    }
+    return bytesOut;
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function clampByte(value) {
+    return Math.max(0, Math.min(255, Math.round(value)));
+  }
+
+  function smoothstep(value) {
+    const t = clamp(value, 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+})();
+</script>
+</body>
+</html>

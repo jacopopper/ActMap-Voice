@@ -50,970 +50,587 @@
     pointer-events: none;
   }
 
-  @page {
-    size: 10in 5.625in;
-    margin: 0;
-  }
-
-  @media print {
-    html, body { background: #fff; }
-    .slide { margin: 0; }
-  }
+  @page { size: 10in 5.625in; margin: 0; }
+  @media print { html, body { background: #fff; } .slide { margin: 0; } }
 
   h1, h2, h3 {
     font-family: Georgia, "Times New Roman", serif;
-    letter-spacing: 0;
     color: var(--ink);
     font-weight: 700;
   }
-
-  h1 {
-    font-size: 64px;
-    line-height: 0.93;
-  }
-
-  h2 {
-    font-size: 40px;
-    line-height: 1.06;
-  }
-
-  h3 {
-    font-size: 22px;
-    line-height: 1.12;
-  }
-
-  p {
-    font-size: 16px;
-    line-height: 1.45;
-    color: #354150;
-  }
+  h1 { font-size: 62px; line-height: 0.95; }
+  h2 { font-size: 40px; line-height: 1.05; }
+  h3 { font-size: 21px; line-height: 1.12; }
+  p { font-size: 16px; line-height: 1.45; color: #354150; }
 
   .kicker {
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--teal);
+    font-size: 11px; font-weight: 900; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--teal);
   }
 
   .brand {
-    position: absolute;
-    top: 34px;
-    left: 42px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
+    position: absolute; top: 34px; left: 42px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 900; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted);
   }
-
   .brand::before {
-    content: "";
-    width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    border: 6px solid var(--ink);
-    border-right-color: var(--teal);
+    content: ""; width: 21px; height: 21px; border-radius: 50%;
+    border: 6px solid var(--ink); border-right-color: var(--teal);
   }
 
   .page-num {
-    position: absolute;
-    right: 42px;
-    bottom: 34px;
-    font-size: 11px;
-    font-weight: 900;
-    color: #95a0ab;
-    letter-spacing: 0.12em;
+    position: absolute; right: 42px; bottom: 34px;
+    font-size: 11px; font-weight: 900; color: #95a0ab; letter-spacing: 0.12em;
   }
 
-  .header {
-    position: absolute;
-    left: 58px;
-    top: 58px;
-    width: 720px;
-  }
-
+  .header { position: absolute; left: 58px; top: 56px; width: 840px; }
   .header h2 { margin-top: 9px; }
-  .header p { margin-top: 12px; width: 650px; }
-  .header.narrow { width: 520px; }
-  .header.narrow p { width: 500px; }
-  .header.compact p { width: 560px; }
+  .header p { margin-top: 11px; width: 700px; font-size: 15px; color: var(--muted); }
+  .header p.single-line { width: 840px; white-space: nowrap; font-size: 14px; }
 
   .pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 29px;
-    min-width: 84px;
-    padding: 0 13px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 28px; min-width: 84px; padding: 0 13px; border-radius: 999px;
+    font-size: 11px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase;
   }
-
   .answer { background: var(--soft-green); color: var(--green); border: 1px solid #9ac6a7; }
   .verify { background: var(--soft-blue); color: var(--blue); border: 1px solid #9eb4db; }
   .escalate { background: var(--soft-red); color: var(--red); border: 1px solid #dfa39a; }
 
-  .fine {
-    font-size: 11px;
-    line-height: 1.42;
-    color: var(--muted);
-  }
+  .fine { font-size: 11px; line-height: 1.42; color: var(--muted); }
+  .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 
-  .mono {
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  }
-
-  /* slide 1 */
-  .cover-title {
-    position: absolute;
-    left: 72px;
-    top: 104px;
-    width: 530px;
-  }
-
+  /* ---------- slide 1 cover ---------- */
+  .cover-title { position: absolute; left: 72px; top: 118px; width: 520px; }
   .cover-title h1 span { color: var(--teal); }
-  .cover-title p {
-    margin-top: 18px;
-    width: 505px;
-    font-size: 18px;
-  }
+  .cover-title p { margin-top: 20px; width: 500px; font-size: 18px; }
 
   .voice-card {
-    position: absolute;
-    right: 62px;
-    top: 82px;
-    width: 258px;
-    height: 358px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    box-shadow: 0 28px 60px rgba(18, 24, 33, 0.12);
-    padding: 25px;
+    position: absolute; right: 62px; top: 86px; width: 252px; height: 350px;
+    background: var(--panel); border: 1px solid var(--line);
+    box-shadow: 0 28px 60px rgba(18, 24, 33, 0.12); padding: 24px;
   }
-
   .voice-card .label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-weight: 900;
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.14em; font-weight: 900;
   }
-
   .signal {
-    position: absolute;
-    left: 28px;
-    right: 28px;
-    top: 93px;
-    height: 116px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    position: absolute; left: 26px; right: 26px; top: 86px; height: 116px;
+    display: flex; align-items: center; justify-content: space-between;
   }
-
-  .bar {
-    width: 6px;
-    border-radius: 99px;
-    background: var(--ink);
-  }
-
-  .b1 { height: 22px; opacity: .38; }
-  .b2 { height: 54px; opacity: .58; }
-  .b3 { height: 96px; opacity: .9; }
-  .b4 { height: 68px; opacity: .7; }
-  .b5 { height: 34px; opacity: .48; }
-  .b6 { height: 112px; opacity: .98; background: var(--teal); }
-  .b7 { height: 62px; opacity: .66; }
-  .b8 { height: 82px; opacity: .78; }
-  .b9 { height: 44px; opacity: .54; }
-  .b10 { height: 24px; opacity: .36; }
-
-  .voice-route {
-    position: absolute;
-    left: 25px;
-    right: 25px;
-    bottom: 27px;
-  }
-
-  .route-line {
-    display: grid;
-    grid-template-columns: 78px 1fr;
-    gap: 12px;
-    align-items: center;
-    padding: 10px 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .route-line:first-child { border-top: 0; }
-  .route-line span:first-child {
-    font-size: 11px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .route-line span:last-child {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
+  .bar { width: 6px; border-radius: 99px; background: var(--ink); }
+  .b1 { height: 22px; opacity: .38; } .b2 { height: 54px; opacity: .58; }
+  .b3 { height: 96px; opacity: .9; } .b4 { height: 68px; opacity: .7; }
+  .b5 { height: 34px; opacity: .48; } .b6 { height: 112px; opacity: .98; background: var(--teal); }
+  .b7 { height: 62px; opacity: .66; } .b8 { height: 82px; opacity: .78; }
+  .b9 { height: 44px; opacity: .54; } .b10 { height: 24px; opacity: .36; }
   .activation-caption {
-    position: absolute;
-    left: 25px;
-    right: 25px;
-    bottom: 34px;
-    border-top: 1px solid var(--line);
-    padding-top: 16px;
+    position: absolute; left: 24px; right: 24px; bottom: 30px;
+    border-top: 1px solid var(--line); padding-top: 16px;
   }
-
   .activation-caption strong {
-    display: block;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 8px;
+    display: block; font-size: 12px; font-weight: 900; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 8px;
   }
-
-  .activation-caption span {
-    display: block;
-    font-size: 13px;
-    line-height: 1.35;
-    color: var(--muted);
-  }
+  .activation-caption span { display: block; font-size: 13px; line-height: 1.35; color: var(--muted); }
 
   .cover-line {
-    position: absolute;
-    left: 72px;
-    bottom: 76px;
-    width: 520px;
-    border-top: 1px solid var(--line);
-    padding-top: 18px;
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--muted);
+    position: absolute; left: 72px; bottom: 70px; width: 510px;
+    border-top: 1px solid var(--line); padding-top: 16px;
+    font-size: 14px; line-height: 1.45; color: var(--muted);
   }
+  .cover-line strong { color: var(--ink); font-weight: 700; }
 
-  .cover-line strong {
-    color: var(--teal);
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: 11px;
-    margin-right: 10px;
-  }
-
-  /* general cards and diagrams */
+  /* ---------- three cards ---------- */
   .three-cards {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 72px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    position: absolute; left: 58px; right: 58px; top: 196px; bottom: 62px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
   }
-
   .card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 18px;
-    min-height: 190px;
+    background: var(--panel); border: 1px solid var(--line); padding: 26px;
+    display: flex; flex-direction: column; justify-content: center;
   }
-
+  .card .tag-top {
+    font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .card.t-answer .tag-top { color: var(--green); }
+  .card.t-verify .tag-top { color: var(--blue); }
+  .card.t-escalate .tag-top { color: var(--red); }
   .card h3 { margin-bottom: 12px; }
   .card p { font-size: 14px; color: var(--muted); }
 
-  .numbered {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 44px;
-    line-height: 1;
-    color: var(--teal);
-    margin-bottom: 12px;
+  /* ---------- insight (refund triad) ---------- */
+  .triad {
+    position: absolute; left: 58px; right: 58px; bottom: 96px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
   }
+  .triad-card {
+    background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--line);
+    min-height: 232px; padding: 24px; display: flex; flex-direction: column; justify-content: flex-start;
+  }
+  .triad-card.a { border-top-color: var(--green); }
+  .triad-card.v { border-top-color: var(--blue); }
+  .triad-card.e { border-top-color: var(--red); }
+  .triad-card .pill { align-self: flex-start; }
+  .triad-card .quote {
+    font-family: Georgia, "Times New Roman", serif; font-size: 21px; line-height: 1.2; margin-top: 18px;
+  }
+  .triad-card .fine {
+    margin-top: auto; min-height: 64px; padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .triad-note {
+    position: absolute; left: 58px; right: 58px; bottom: 46px;
+    font-size: 14px; color: var(--muted);
+  }
+  .triad-note strong { color: var(--ink); font-weight: 700; }
 
-  .pipeline-frame {
+  /* ---------- flow diagrams ---------- */
+  .flow {
+    position: absolute; left: 58px; right: 58px; top: 214px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fnode {
+    flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 12px; text-align: center; min-height: 104px;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 12px 26px rgba(18, 24, 33, 0.07);
+  }
+  .fnode .ftop {
+    font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 7px;
+  }
+  .fnode strong { font-size: 16px; display: block; }
+  .fnode span { font-size: 12px; color: var(--muted); margin-top: 5px; display: block; }
+  .fnode.eleven { background: var(--soft-green); border-color: #9ac6a7; }
+  .fnode.eleven .ftop { color: var(--teal); }
+  .fnode.dark { background: var(--dark); border-color: var(--dark); }
+  .fnode.dark strong, .fnode.dark .ftop { color: #fff; }
+  .fnode.dark .ftop { color: #9be2ad; }
+  .fnode.dark span { color: #9aa6b5; }
+  .fnode.weak { background: var(--soft-amber); border-color: #dfb85c; }
+  .fnode.weak .ftop { color: #a9781a; }
+  .fnode.weak span { color: #8a6a2a; }
+  .fnode.active { background: var(--soft-blue); border-color: #9eb4db; }
+  .fnode.active .ftop { color: var(--blue); }
+  .farrow { flex: 0 0 44px; text-align: center; color: #aab3bd; font-size: 26px; font-weight: 400; }
+
+  .plugin-arrow {
     position: absolute;
-    left: 62px;
-    right: 62px;
-    top: 176px;
-    height: 290px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    box-shadow: 0 20px 44px rgba(18, 24, 33, 0.10);
-    padding: 10px;
+    left: 370px;
+    top: 156px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+  .plugin-arrow .label {
+    background: var(--dark);
+    color: #fff;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 24px rgba(18, 24, 33, 0.14);
+  }
+  .plugin-arrow .shaft {
+    position: relative;
+    width: 2px;
+    height: 42px;
+    margin-top: 7px;
+    background: var(--dark);
+  }
+  .plugin-arrow .shaft::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 9px solid var(--dark);
   }
 
-  .pipeline-frame img {
+  .hangtag {
+    position: absolute; left: 58px; right: 58px; top: 338px;
+    display: flex; justify-content: center;
+  }
+  .hangtag .chip {
+    background: var(--soft-amber); border: 1px solid #dfb85c; border-radius: 10px;
+    padding: 10px 18px; text-align: center;
+  }
+  .hangtag .chip strong { font-size: 13px; color: #7a4d00; display: block; }
+  .hangtag .chip span { font-size: 11px; color: #8a6a2a; }
+  .hangtag .chip.blue {
+    background: var(--soft-blue); border-color: #9eb4db;
+  }
+  .hangtag .chip.blue strong { color: var(--blue); }
+  .hangtag .chip.blue span { color: #526179; }
+
+  .routes {
+    position: absolute; left: 58px; right: 58px; top: 332px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .route {
+    background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--line);
+    border-radius: 8px; padding: 14px 16px;
+  }
+  .route.a { border-left-color: var(--green); }
+  .route.v { border-left-color: var(--blue); }
+  .route.e { border-left-color: var(--red); }
+  .route .pill { margin-bottom: 10px; }
+  .route span { font-size: 12px; color: var(--muted); }
+  .route .pill + span { display: block; }
+
+  .routeline {
+    position: absolute; left: 58px; right: 58px; top: 356px;
+    text-align: center; font-size: 19px; color: var(--muted); letter-spacing: 0.01em;
+  }
+  .routeline.same-routes { top: 392px; font-size: 15px; }
+  .routeline.same-routes .label {
+    font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-right: 8px;
+  }
+  .routeline b { font-weight: 800; margin: 0 4px; }
+  .routeline .r-a { color: var(--green); }
+  .routeline .r-v { color: var(--blue); }
+  .routeline .r-e { color: var(--red); }
+
+  .flow-note {
+    position: absolute; left: 58px; right: 58px; bottom: 48px;
+    text-align: center; font-size: 14px; color: var(--muted);
+  }
+  .flow-note strong { color: var(--ink); font-weight: 700; }
+
+  /* ---------- slide 6 signal ---------- */
+  .signal-layout {
+    position: absolute; left: 58px; right: 58px; bottom: 60px; top: 200px;
+    display: grid; grid-template-columns: 470px 1fr; gap: 26px; align-items: stretch;
+  }
+  .heatmap-panel { background: var(--panel); border: 1px solid var(--line); padding: 22px; }
+  .heatmap { display: grid; grid-template-columns: repeat(32, 1fr); gap: 3px; margin-top: 18px; }
+  .heatmap i { display: block; height: 11px; border-radius: 2px; }
+  .m1 { background: #0f6b5f; } .m2 { background: #2f6fbd; } .m3 { background: #d99a21; }
+  .m4 { background: #c84242; } .m5 { background: #111820; } .m6 { background: #aeb7c2; }
+  .steps { display: grid; gap: 14px; }
+  .step { background: var(--panel); border: 1px solid var(--line); padding: 17px 18px; }
+  .step .n {
+    font-family: Georgia, serif; font-size: 22px; color: var(--teal); float: left;
+    margin-right: 12px; line-height: 1;
+  }
+  .step strong { display: block; font-size: 14px; margin-bottom: 5px; }
+
+  /* ---------- slide 7 benchmark ---------- */
+  .benchmark-layout {
+    position: absolute; left: 58px; right: 58px; bottom: 64px; top: 196px;
+    display: grid; grid-template-columns: 1fr 332px; gap: 24px; align-items: stretch;
+  }
+  .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .metric { background: var(--panel); border: 1px solid var(--line); padding: 18px; min-height: 128px; }
+  .metric .num { font-family: Georgia, serif; font-size: 44px; line-height: 1; color: var(--teal); font-weight: 700; }
+  .metric .label { margin-top: 12px; font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+  .metric .fine { margin-top: 7px; }
+  .table { background: var(--panel); border: 1px solid var(--line); padding: 22px; }
+  .table h3 { color: var(--ink); }
+  .row {
+    display: grid; grid-template-columns: 1fr 72px 72px; gap: 8px; padding: 14px 10px;
+    border-top: 1px solid var(--line); font-size: 13px; align-items: center;
+  }
+  .row.head { margin-top: 16px; padding-bottom: 4px; font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border-top: 0; }
+  .row.win { background: var(--soft-green); border-radius: 8px; border-top: 0; }
+  .row span:nth-child(2), .row span:nth-child(3) { text-align: right; font-weight: 900; }
+  .good { color: var(--teal); } .base { color: var(--muted); }
+
+  /* ---------- slide 8 contrast cases ---------- */
+  .cases {
+    position: absolute; left: 58px; right: 58px; top: 200px; bottom: 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .case-card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 24px; display: flex; flex-direction: column;
+  }
+  .case-card .pill { align-self: flex-start; margin-bottom: 14px; }
+  .case-card .q { font-family: Georgia, serif; font-size: 21px; line-height: 1.22; margin-bottom: 24px; }
+  .contrast { display: flex; flex-direction: column; gap: 10px; margin-top: 0; }
+  .crow { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .crow .who { width: 116px; color: var(--muted); font-weight: 700; }
+  .tag {
+    font-size: 11px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 6px;
+  }
+  .tag.bad { background: var(--soft-red); color: var(--red); }
+  .tag.ok { background: var(--soft-green); color: var(--green); }
+
+  /* ---------- slide 8 money ---------- */
+  .cost-stack {
+    position: absolute; left: 58px; right: 58px; top: 210px; bottom: 74px;
+    display: grid; gap: 14px;
+  }
+  .cost {
+    background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--teal);
+    padding: 16px 28px; display: grid; grid-template-columns: 170px 1fr; gap: 22px; align-items: center;
+  }
+  .cost .num { font-family: Georgia, serif; font-size: 46px; line-height: 1; font-weight: 700; color: var(--teal); }
+  .cost strong { display: block; font-size: 16px; margin-bottom: 5px; color: var(--ink); }
+  .cost span { display: block; font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* ---------- grounding report ---------- */
+  .dark-slide { background: var(--dark); color: #fff; }
+  .dark-slide::before { border-color: rgba(255,255,255,0.16); }
+  .dark-slide h2, .dark-slide h3 { color: #fff; }
+  .dark-slide .kicker { color: #9be2ad; }
+  .dark-slide p { color: #c9d3df; }
+  .dark-slide .page-num { color: #758294; }
+  .source-layout {
+    position: absolute; left: 58px; right: 58px; top: 54px; bottom: 58px;
+  }
+  .source-copy {
+    position: absolute; left: 0; top: 0;
+  }
+  .report-card {
+    position: absolute; left: 214px; right: 0; top: 38px; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .report-top { display: none; }
+  .report-card img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: contain;
-  }
-
-  .callout {
-    position: absolute;
-    right: 62px;
-    top: 62px;
-    width: 248px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 15px;
-  }
-
-  .callout strong {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 13px;
-  }
-
-  .callout .fine { color: var(--muted); }
-
-  /* slide 5 */
-  .signal-layout {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 68px;
-    display: grid;
-    grid-template-columns: 508px 1fr;
-    gap: 28px;
-    align-items: stretch;
-  }
-
-  .heatmap-panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 20px;
-  }
-
-  .heatmap {
-    display: grid;
-    grid-template-columns: repeat(32, 1fr);
-    gap: 3px;
-    margin-top: 16px;
-  }
-
-  .heatmap i {
-    display: block;
-    height: 10px;
-    border-radius: 2px;
-  }
-
-  .m1 { background: #0f6b5f; }
-  .m2 { background: #2f6fbd; }
-  .m3 { background: #d99a21; }
-  .m4 { background: #c84242; }
-  .m5 { background: #111820; }
-  .m6 { background: #aeb7c2; }
-
-  .steps {
-    display: grid;
-    gap: 12px;
-  }
-
-  .step {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 16px;
-    min-height: 82px;
-  }
-
-  .step strong {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-
-  /* slide 6 */
-  .decision-grid {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 70px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .decision-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    min-height: 275px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .quote {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 22px;
-    line-height: 1.18;
-    margin-top: 18px;
-  }
-
-  .decision-card .fine {
-    border-top: 1px solid var(--line);
-    padding-top: 13px;
-  }
-
-  /* slide 7 */
-  .domain-board {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 58px;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 20px;
-  }
-
-  .surface-list {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 18px;
-  }
-
-  .surface-list h3 { margin-bottom: 14px; }
-  .surface-item {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 12px;
-    padding: 11px 0;
-    border-top: 1px solid var(--line);
-    font-size: 13px;
-  }
-  .surface-item:first-of-type { border-top: 0; }
-  .surface-item strong { color: var(--ink); }
-  .surface-item span { color: var(--muted); line-height: 1.35; }
-
-  .policy-box {
-    background: var(--dark);
-    color: #fff;
-    padding: 22px;
-  }
-
-  .policy-box h3 { color: #fff; }
-  .policy-box p { color: #c9d3df; font-size: 14px; margin-top: 12px; }
-  .policy-box .rule {
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.16);
-    color: #9aa6b5;
-    font-size: 12px;
-    line-height: 1.45;
-  }
-
-  /* slide 8 */
-  .benchmark-layout {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 68px;
-    display: grid;
-    grid-template-columns: 1fr 332px;
-    gap: 24px;
-    align-items: stretch;
-  }
-
-  .metric-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-
-  .metric {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 18px;
-    min-height: 128px;
-  }
-
-  .metric .num {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 44px;
-    line-height: 1;
-    color: var(--teal);
-    font-weight: 700;
-  }
-
-  .metric .label {
-    margin-top: 12px;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .metric .fine { margin-top: 7px; }
-
-  .table {
-    background: var(--dark);
-    color: #fff;
-    padding: 22px;
-  }
-
-  .table h3 { color: #fff; }
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 72px 72px;
-    gap: 8px;
-    padding: 13px 0;
-    border-top: 1px solid rgba(255,255,255,0.16);
-    font-size: 13px;
-    align-items: center;
-  }
-
-  .row.head {
-    margin-top: 15px;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #aeb7c2;
-  }
-
-  .row span:nth-child(2),
-  .row span:nth-child(3) { text-align: right; font-weight: 900; }
-  .good { color: #9be2ad; }
-  .base { color: #c4ceda; }
-
-  /* slide 9 */
-  .value-layout {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 62px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .case-list {
-    display: grid;
-    gap: 14px;
-  }
-
-  .case {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 15px 16px;
-    min-height: 96px;
-  }
-
-  .case .pill { margin-bottom: 8px; }
-
-  .cost-stack {
-    display: grid;
-    gap: 10px;
-  }
-
-  .cost {
-    background: var(--dark);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.16);
-    padding: 15px 18px;
-    display: grid;
-    grid-template-columns: 112px 1fr;
-    gap: 14px;
-    align-items: center;
-    min-height: 78px;
-  }
-
-  .cost .num {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 36px;
-    line-height: 1;
-    font-weight: 700;
-  }
-
-  .cost .num.amber { color: #f0c36a; }
-  .cost .num.green { color: #9be2ad; }
-  .cost .num.blue { color: #9bbcff; }
-  .cost strong {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 5px;
-  }
-  .cost span {
-    display: block;
-    font-size: 11px;
-    color: #9aa6b5;
-    line-height: 1.35;
-  }
-
-  /* slide 10 */
-  .dark-slide {
-    background: var(--dark);
-    color: #fff;
-  }
-  .dark-slide::before { border-color: rgba(255,255,255,0.16); }
-  .dark-slide h2,
-  .dark-slide h3 { color: #fff; }
-  .dark-slide .kicker { color: #9be2ad; }
-  .dark-slide p { color: #c9d3df; }
-  .dark-slide .page-num { color: #758294; }
-
-  .source-layout {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 92px;
-    display: grid;
-    grid-template-columns: 360px 1fr;
-    gap: 26px;
-    align-items: end;
-  }
-
-  .source-copy {
-    padding-bottom: 8px;
-  }
-
-  .source-copy h2 {
-    font-size: 42px;
-    margin-top: 9px;
-  }
-
-  .source-copy p {
-    margin-top: 18px;
-    font-size: 16px;
-    line-height: 1.45;
-  }
-
-  .source-copy .source-meta {
-    margin-top: 24px;
-    border-top: 1px solid rgba(255,255,255,0.16);
-    padding-top: 16px;
-    color: #9aa6b5;
-    font-size: 12px;
-    line-height: 1.45;
-  }
-
-  .report-card {
-    height: 330px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.16);
-    padding: 12px;
-  }
-
-  .report-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 9px;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #9be2ad;
-  }
-
-  .report-top span:last-child {
-    color: #9aa6b5;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  .report-card img {
-    width: 100%;
-    height: 262px;
-    object-fit: cover;
     object-position: top center;
-    display: block;
     background: #fff;
     border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 28px 70px rgba(0,0,0,0.22);
   }
-
-  .closing-line {
-    position: absolute;
-    left: 58px;
-    right: 58px;
-    bottom: 28px;
-    border-top: 1px solid rgba(255,255,255,0.16);
-    padding-top: 13px;
-    display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .closing-line strong {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  .closing-line span {
-    text-align: right;
-    color: #9aa6b5;
-    font-size: 11px;
-    line-height: 1.4;
-  }
+  .report-card .heatmap { display: none; grid-template-columns: repeat(32, 1fr); gap: 3px; margin-top: 18px; }
+  .report-card .heatmap i { display: block; height: 22px; border-radius: 2px; }
 </style>
 </head>
 <body>
 
+<!-- 1. COVER -->
 <section class="slide">
   <div class="brand">ActMap Voice</div>
   <div class="cover-title">
-    <div class="kicker">Pre-speech decision layer</div>
+    <div class="kicker">For ElevenLabs agents</div>
     <h1>Route before<br><span>the agent speaks.</span></h1>
-    <p>Voice agents should not retrieve documents for every request, and they should not speak from memory when a turn depends on policy, account state, or risk. ActMap reads model activations before speech to choose the right action.</p>
+    <p>A computer-vision route signal that helps voice agents answer, verify, or escalate before a single word is spoken.</p>
   </div>
   <div class="cover-line">
-    <strong>Core idea</strong>
-    Hidden activations expose uncertainty and operational risk before TTS, so the agent can choose the right action before the user hears anything.
+    <strong>ElevenLabs gives us the voice loop.</strong> ActMap gives that loop a hidden-activation signal for choosing the next path.
   </div>
   <div class="voice-card">
-    <div class="label">model activations</div>
+    <div class="label">inside the model</div>
     <div class="signal">
       <span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b4"></span><span class="bar b5"></span>
       <span class="bar b6"></span><span class="bar b7"></span><span class="bar b8"></span><span class="bar b9"></span><span class="bar b10"></span>
     </div>
     <div class="activation-caption">
       <strong>before speech</strong>
-      <span>Hidden states from a fixed local LLM become a route signal before the answer reaches TTS.</span>
+      <span>We read the model's own confidence and turn it into the next action.</span>
     </div>
   </div>
   <div class="page-num">01</div>
 </section>
 
+<!-- 2. PROBLEM -->
 <section class="slide">
   <div class="header">
-    <div class="kicker">Why this exists</div>
-    <h2>Voice agents need a decision layer, not only a response model.</h2>
-    <p>In voice, the wrong route becomes spoken, immediate, and branded. The routing decision has to happen before speech.</p>
+    <div class="kicker">The problem</div>
+    <h2>The route has to be right before speech.</h2>
+    <p class="single-line">Voice agents already choose a path before the reply is spoken. The hard part is knowing which path is safe.</p>
   </div>
   <div class="three-cards">
-    <div class="card">
-      <div class="numbered">1</div>
-      <h3>Answering too fast</h3>
-      <p>Account-specific, pricing, refund, or security questions can sound confident while being wrong.</p>
+    <div class="card t-answer">
+      <div class="tag-top">Answer</div>
+      <h3>Fast when safe</h3>
+      <p>Stable product and navigation questions should speak immediately without tool delay.</p>
     </div>
-    <div class="card">
-      <div class="numbered">2</div>
-      <h3>Verifying everything</h3>
-      <p>Always calling RAG or tools slows simple turns and burns cost when the answer is stable.</p>
+    <div class="card t-verify">
+      <div class="tag-top">Verify</div>
+      <h3>Check live facts</h3>
+      <p>Account, billing, policy, and availability questions need RAG, tools, or backend data.</p>
     </div>
-    <div class="card">
-      <div class="numbered">3</div>
-      <h3>Escalating too late</h3>
-      <p>Human handoff after a risky generated answer is still too late for fraud, legal, and trust issues.</p>
+    <div class="card t-escalate">
+      <div class="tag-top">Escalate</div>
+      <h3>Hand off early</h3>
+      <p>Fraud, legal, urgent, and angry-customer turns should reach a human before improvisation.</p>
     </div>
   </div>
   <div class="page-num">02</div>
 </section>
 
+<!-- 3. INSIGHT -->
 <section class="slide">
-  <div class="header narrow">
-    <div class="kicker">Current voice-agent pattern</div>
-    <h2>The voice loop is strong.</h2>
-    <p>The gap is deciding what happens between transcript and speech.</p>
+  <div class="header">
+    <div class="kicker">The insight</div>
+    <h2>Same words. Different action.</h2>
+    <p>One topic, three correct responses. The right move depends on risk, not the keyword.</p>
   </div>
-  <div class="callout">
-    <strong>The default loop speaks after generation.</strong>
-    <div class="fine">Verification usually happens inside the agent loop. That makes route quality dependent on the same text model that is about to answer.</div>
+  <div class="triad">
+    <div class="triad-card a">
+      <span class="pill answer">Answer</span>
+      <div class="quote">"Where is your refund policy?"</div>
+      <div class="fine">Stable public info. Speak instantly, no lookup.</div>
+    </div>
+    <div class="triad-card v">
+      <span class="pill verify">Verify</span>
+      <div class="quote">"Am I eligible for a refund?"</div>
+      <div class="fine">Depends on this account. Check the data, then speak.</div>
+    </div>
+    <div class="triad-card e">
+      <span class="pill escalate">Escalate</span>
+      <div class="quote">"Someone used my card without permission."</div>
+      <div class="fine">Risk and fraud. Hand to a human, do not improvise.</div>
+    </div>
   </div>
-  <div class="pipeline-frame">
-    <img src="assets/elevenlabs-standard-pipeline.svg" alt="Standard ElevenLabs voice-agent pipeline" />
-  </div>
+  <div class="triad-note"><strong>The topic is similar.</strong> The correct route depends on operational risk, not just intent.</div>
   <div class="page-num">03</div>
 </section>
 
+<!-- 4. ELEVENLABS PRE-SPEECH ROUTING -->
 <section class="slide">
-  <div class="header narrow">
-    <div class="kicker">ActMap insertion point</div>
-    <h2>Add one gate before TTS.</h2>
-    <p>ActMap routes every transcript before the voice agent speaks.</p>
+  <div class="header">
+    <div class="kicker">ElevenLabs pipeline</div>
+    <h2>ElevenLabs already routes before speech.</h2>
+    <p>Agent Workflows can choose a path with LLM conditions before text-to-speech runs.</p>
   </div>
-  <div class="callout">
-    <strong>The generated answer is not the signal.</strong>
-    <div class="fine">A fixed local Qwen3-8B pass exposes hidden activations. The user hears only the final routed response.</div>
+  <div class="flow">
+    <div class="fnode eleven"><div class="ftop">ElevenLabs</div><strong>Speech to text</strong><span>transcript</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fnode weak"><div class="ftop">LM condition</div><strong>Route decision</strong><span>from transcript</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fnode eleven"><div class="ftop">Workflow path</div><strong>Speak or act</strong><span>answer, verify, escalate</span></div>
   </div>
-  <div class="pipeline-frame">
-    <img src="assets/actmap-pipeline.svg" alt="Voice-agent pipeline with ActMap routing before speech" />
+  <div class="plugin-arrow">
+    <div class="label">ActMap plugs in here</div>
+    <div class="shaft"></div>
   </div>
+  <div class="flow-note"><strong>Pre-speech route point:</strong> after transcription, before the workflow speaks or acts.</div>
   <div class="page-num">04</div>
 </section>
 
+<!-- 5. ACTMAP SIGNAL -->
 <section class="slide">
-  <div class="header compact">
-    <div class="kicker">White-box signal</div>
-    <h2>Activation maps become route signals.</h2>
-    <p>Hidden states are reshaped into image-like maps and classified by a ViT route head.</p>
+  <div class="header">
+    <div class="kicker">ActMap signal</div>
+    <h2>Same route moment. Different model.</h2>
+    <p>ActMap routes from the reasoning model's activations with a computer-vision classifier.</p>
   </div>
-  <div class="signal-layout">
-    <div class="heatmap-panel">
-      <h3>ActMap tensor</h3>
-      <p class="fine" style="margin-top:8px;">12 selected layers x 32 generated tokens x 128 projected features.</p>
-      <div class="heatmap" aria-label="activation map preview">
-        <i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i>
-        <i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m6"></i><i class="m1"></i>
-        <i class="m4"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m6"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i>
-        <i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m1"></i><i class="m2"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i>
-        <i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m5"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m4"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m4"></i><i class="m5"></i><i class="m4"></i>
-        <i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m2"></i><i class="m1"></i><i class="m6"></i><i class="m5"></i><i class="m1"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m4"></i><i class="m2"></i><i class="m3"></i><i class="m6"></i><i class="m1"></i><i class="m2"></i><i class="m3"></i><i class="m2"></i><i class="m4"></i><i class="m3"></i><i class="m2"></i><i class="m1"></i><i class="m3"></i>
-      </div>
-    </div>
-    <div class="steps">
-      <div class="step"><strong>1. Transcript in</strong><span class="fine">The STT transcript is placed in a voice-agent system context.</span></div>
-      <div class="step"><strong>2. Local decode pass</strong><span class="fine">Qwen3-8B generates a short private continuation and exposes hidden states.</span></div>
-      <div class="step"><strong>3. ViT route head</strong><span class="fine">The map is classified into ANSWER, VERIFY, or ESCALATE.</span></div>
-    </div>
+  <div class="flow">
+    <div class="fnode eleven"><div class="ftop">ElevenLabs</div><strong>Speech to text</strong><span>transcript</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fnode dark"><div class="ftop">Reasoning model</div><strong>Hidden activations</strong><span>private pass</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fnode active"><div class="ftop">Computer vision</div><strong>ActMap router</strong><span>activation map</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fnode eleven"><div class="ftop">ElevenLabs</div><strong>Workflow path</strong><span>answer, verify, escalate</span></div>
   </div>
   <div class="page-num">05</div>
 </section>
 
+<!-- 6. DEMO PATHS -->
 <section class="slide">
   <div class="header">
-    <div class="kicker">Operational behavior</div>
-    <h2>Same agent. Three different actions.</h2>
-    <p>The class is not a topic label. It is the operational route the voice agent should take.</p>
+    <div class="kicker">Demo paths</div>
+    <h2>One ElevenLabs loop. Three route outcomes.</h2>
+    <p>Each turn enters through ElevenLabs STT, gets an ActMap route, then returns through the appropriate workflow path.</p>
   </div>
-  <div class="decision-grid">
-    <div class="decision-card">
-      <div>
-        <span class="pill answer">Answer</span>
-        <div class="quote">"Where is the refund policy?"</div>
-      </div>
-      <div class="fine">Use stable public knowledge. Skip retrieval and speak directly.</div>
+  <div class="triad">
+    <div class="triad-card a">
+      <span class="pill answer">Answer</span>
+      <div class="quote">"Where do I find the conversation simulator?"</div>
+      <div class="fine">Speak now. Stable product guidance goes straight to the voice reply.</div>
     </div>
-    <div class="decision-card">
-      <div>
-        <span class="pill verify">Verify</span>
-        <div class="quote">"Am I eligible for a refund?"</div>
-      </div>
-      <div class="fine">Check purchase date, plan, account status, and policy window before speaking.</div>
+    <div class="triad-card v">
+      <span class="pill verify">Verify</span>
+      <div class="quote">"Who mentioned me in comments this month?"</div>
+      <div class="fine">Check first. Tools or RAG fetch live account data before speech.</div>
     </div>
-    <div class="decision-card">
-      <div>
-        <span class="pill escalate">Escalate</span>
-        <div class="quote">"Someone used my card without permission."</div>
-      </div>
-      <div class="fine">Stop autonomous handling and move to a human support workflow.</div>
+    <div class="triad-card e">
+      <span class="pill escalate">Escalate</span>
+      <div class="quote">"Someone used my card without permission."</div>
+      <div class="fine">Hand off. The caller gets a safe transfer message, not an improvised answer.</div>
     </div>
   </div>
   <div class="page-num">06</div>
 </section>
 
+<!-- 7. PROOF -->
 <section class="slide">
-  <div class="header compact">
-    <div class="kicker">Demo domain</div>
-    <h2>Account questions are routing tests.</h2>
+  <div class="header">
+    <div class="kicker">The proof</div>
+    <h2>The CV route signal is stronger.</h2>
+    <p>Benchmarked against a Qwen language-model router classifying the same transcripts.</p>
   </div>
-  <div class="domain-board">
-    <div class="surface-list">
-      <h3>Question surfaces</h3>
-      <div class="surface-item"><strong>Plans</strong><span>individual, pro, enterprise, seat limits, upgrades, migrations</span></div>
-      <div class="surface-item"><strong>Billing</strong><span>invoices, failed payments, tax details, usage charges, credits</span></div>
-      <div class="surface-item"><strong>Refunds</strong><span>policy location, eligibility, renewal windows, disputed charges</span></div>
-      <div class="surface-item"><strong>Security</strong><span>SSO, audit logs, data retention, suspicious access, card misuse</span></div>
-      <div class="surface-item"><strong>Support</strong><span>bug reports, account lockouts, human handoff, admin requests</span></div>
+  <div class="benchmark-layout">
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="num">96.2%</div>
+        <div class="label">routing accuracy</div>
+        <div class="fine">On held-out test cases.</div>
+      </div>
+      <div class="metric">
+        <div class="num">+5.2</div>
+        <div class="label">points more accurate</div>
+        <div class="fine">Vs. routing on transcript text.</div>
+      </div>
+      <div class="metric">
+        <div class="num">~250ms</div>
+        <div class="label">optimized route latency</div>
+        <div class="fine">Warm model, short pass.</div>
+      </div>
+      <div class="metric">
+        <div class="num">3</div>
+        <div class="label">routes, one model</div>
+        <div class="fine">Answer, verify, escalate.</div>
+      </div>
     </div>
-    <div class="policy-box">
-      <h3>The route depends on the action, not the noun.</h3>
-      <p>"Refund" can be ANSWER when asking where the policy is, VERIFY when asking about eligibility, and ESCALATE when fraud or coercion appears.</p>
-      <div class="rule">This is why text intent routing is too weak for voice operations. The agent needs an internal signal of uncertainty and risk before speech.</div>
+    <div class="table">
+      <h3>Head to head</h3>
+      <div class="row head"><span>router</span><span>acc.</span><span>f1</span></div>
+      <div class="row win"><strong>ActMap CV</strong><span class="good">96.18</span><span class="good">0.962</span></div>
+      <div class="row"><strong>Transcript LM</strong><span class="base">91.01</span><span class="base">0.911</span></div>
     </div>
   </div>
   <div class="page-num">07</div>
 </section>
 
+<!-- 8. MONEY -->
 <section class="slide">
-  <div class="header compact">
-    <div class="kicker">Measured benchmark</div>
-    <h2>ActMap beats the text-only LM route.</h2>
-    <p>Final run on 2,967 Qwen3-8B decode ActMaps with balanced ANSWER, VERIFY, and ESCALATE labels.</p>
+  <div class="header">
+    <div class="kicker">At scale</div>
+    <h2>Correct routes save real money.</h2>
+    <p class="single-line">Scenario: 10M voice turns per day, with each avoided retrieval or tool path worth $0.02 in direct inference cost.</p>
   </div>
-  <div class="benchmark-layout">
-    <div class="metric-grid">
-      <div class="metric">
-        <div class="num">96.18%</div>
-        <div class="label">ActMap ViT accuracy</div>
-        <div class="fine">Macro F1 0.9619 on held-out test split.</div>
-      </div>
-      <div class="metric">
-        <div class="num">4.5x</div>
-        <div class="label">Faster final router</div>
-        <div class="fine">390.7 rows/s vs 86.4 rows/s after ActMaps exist.</div>
-      </div>
-      <div class="metric">
-        <div class="num">+5.17</div>
-        <div class="label">Accuracy points</div>
-        <div class="fine">Lift over the text-only Qwen router baseline.</div>
-      </div>
-      <div class="metric">
-        <div class="num">32</div>
-        <div class="label">Clear contrast cases</div>
-        <div class="fine">Text-only wrong, ActMap correct on the test set.</div>
-      </div>
-    </div>
-    <div class="table">
-      <h3>Router comparison</h3>
-      <div class="row head"><span>model</span><span>acc.</span><span>f1</span></div>
-      <div class="row"><strong>ActMap + ViT</strong><span class="good">96.18</span><span class="good">0.9619</span></div>
-      <div class="row"><strong>Text-only LM</strong><span class="base">91.01</span><span class="base">0.9110</span></div>
-      <p class="fine" style="color:#9aa6b5;margin-top:16px;">Speed is measured for the final classifier step. End-to-end latency still includes STT and the local activation pass.</p>
-    </div>
+  <div class="cost-stack">
+    <div class="cost"><div class="num">517k</div><div><strong>additional correct routes per day</strong><span>From the measured lift at 10M voice turns/day.</span></div></div>
+    <div class="cost"><div class="num">$10.3k</div><div><strong>daily retrieval cost exposure</strong><span>Corrected routes x $0.02 per avoided retrieval/tool path.</span></div></div>
+    <div class="cost"><div class="num">$3.8M</div><div><strong>annual savings opportunity</strong><span>Direct retrieval savings only. Avoided support risk is not dollarized.</span></div></div>
   </div>
   <div class="page-num">08</div>
 </section>
 
-<section class="slide">
-  <div class="header compact">
-    <div class="kicker">Results and cost saved</div>
-    <h2>Risk and cost move together.</h2>
-    <p>ActMap catches risky routes and skips unnecessary retrieval for stable answers.</p>
-  </div>
-  <div class="value-layout">
-    <div class="case-list">
-      <div class="case">
-        <span class="pill verify">Error prevented</span>
-        <p class="fine">"Is there a newer version of the desktop app available for me?" Text-only LM predicted ANSWER. ActMap predicted VERIFY.</p>
-      </div>
-      <div class="case">
-        <span class="pill answer">Cost avoided</span>
-        <p class="fine">"Do you have a migration guide?" Text-only LM predicted VERIFY. ActMap predicted ANSWER.</p>
-      </div>
-    </div>
-    <div class="cost-stack">
-      <div class="cost"><div class="num amber">$49M</div><div><strong>avoidable annual always-RAG spend</strong><span>Scenario: 10M turns/day and $0.02 blended RAG/tool path.</span></div></div>
-      <div class="cost"><div class="num green">66.3%</div><div><strong>turns can skip RAG/tools</strong><span>ANSWER plus ESCALATE routes avoid retrieval before speech.</span></div></div>
-      <div class="cost"><div class="num blue">517k</div><div><strong>more correct routes per day</strong><span>At 10M turns/day from the 5.17 point accuracy lift.</span></div></div>
-    </div>
-  </div>
-  <div class="page-num">09</div>
-</section>
-
+<!-- 9. GROUNDING WORK -->
 <section class="slide dark-slide">
   <div class="source-layout">
     <div class="source-copy">
-      <div class="kicker">Method provenance</div>
-      <h2>Built on prior white-box ActMap work.</h2>
-      <p>ActMap Voice is the voice-agent application of activation-map uncertainty and risk signals from LLM runtime activations.</p>
-      <div class="source-meta">
-        Source: <strong>ActMap: White-Box Uncertainty Quantification from LLM Runtime Activations</strong><br>
-        Jacopo Dardini, Alma Mater Studiorum - University of Bologna<br>
-        Reference file: <span class="mono">white_box_uq/doc/report.pdf</span>
-      </div>
+      <div class="kicker">Grounding work</div>
     </div>
-    <div class="report-card">
-      <div class="report-top"><span>report screenshot</span><span>page 1, top half</span></div>
-      <img src="assets/whitebox_uq_report_first_half.png" alt="First half of the ActMap white-box uncertainty quantification report" />
+    <div class="report-card" aria-label="First-page crop of the ActMap white-box uncertainty quantification report">
+      <div class="report-top"><span>source artifact</span><span>first-page crop</span></div>
+      <img src="assets/whitebox_uq_report_first_half.png" alt="First-page crop of the ActMap white-box uncertainty quantification report">
     </div>
   </div>
-  <div class="closing-line">
-    <strong>Answer when safe. Verify when data matters. Escalate before damage.</strong>
-    <span>ElevenLabs runs the voice interface. ActMap supplies the pre-speech decision layer.</span>
-  </div>
-  <div class="page-num">10</div>
+  <div class="page-num">09</div>
 </section>
 
 </body>
