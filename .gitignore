@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# ActMap data tensors (large binary files)
+data/*.pt
+data/*.tmp
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
